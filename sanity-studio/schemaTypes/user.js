@@ -4,6 +4,11 @@ export default {
   type: 'document',
   fields: [
     {
+      title: 'ID',
+      name: 'id',
+      type: 'string'
+    },
+    {
       title: 'Username',
       name: 'username',
       type: 'string'
@@ -23,42 +28,27 @@ export default {
       name: 'image',
       type: 'string'
     },
+    { name: "fcmToken", type: "string" },  // FCM 토큰
     {
-      title: 'Following',
-      name: 'following',
-      type: 'array',
-      of: [
-        {
-          type: 'reference',
-          to: [{ type: 'user'}]
-        }
+      name: "notification",
+      title: "Notification Settings",
+      type: "object",
+      fields: [
+        { name: "isEnabled", type: "boolean", title: "알림 활성화" },
+        { 
+          name: "regions", 
+          type: "array", 
+          title: "알림 받을 지역", 
+          of: [{ type: "string" }] 
+        },
+        { 
+          name: "events", 
+          type: "array", 
+          title: "알림 받을 이벤트", 
+          of: [{ type: "string" }]
+        },
       ],
-      validation: (Rule) => Rule.unique()
     },
-    {
-      title: 'Followers',
-      name: 'followers',
-      type: 'array',
-      of: [
-        {
-          type: 'reference',
-          to: [{ type: 'user'}]
-        }
-      ],
-      validation: (Rule) => Rule.unique()
-    },
-    {
-      title: 'Bookmarks',
-      name: 'bookmarks',
-      type: 'array',
-      of: [
-        {
-          type: 'reference',
-          to: [{ type: 'user'}]
-        }
-      ],
-      validation: (Rule) => Rule.unique(),
-    }
   ],
   preview: {
     select: {
@@ -66,4 +56,4 @@ export default {
       subtitle: 'username'
     }
   }
-}
+};
