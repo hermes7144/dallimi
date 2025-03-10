@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';  // Next.js에서 useRouter 사용
 import useSWR from 'swr';
-import useMe from '@/hooks/me';
+import useMe from '@/hooks/useMe';
 
 export const predefinedRegions : string[]  = ['서울', '경기', '인천', '강원', '충북', '충남', '대전', '세종', '경북', '경남', '대구', '부산', '울산', '전북', '전남', '광주', '제주'];
 export const predefinedEvents  : string[] = ['Full', 'Half', '10km', '5km'];
