@@ -7,10 +7,7 @@ export async function getMarathons() {
       `*[_type == "marathon"]
 `
     )
-    .then(res => {
-      console.log('res', res);
-      return mapPosts(res);
-    });
+    .then(mapPosts);
 };
 
 function mapPosts(marathons: Marathon[]) {

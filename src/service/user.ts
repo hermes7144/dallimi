@@ -36,3 +36,10 @@ export async function setNotification(userId: string, notification: { isEnabled:
     .set({ notification }) // 기존 notification을 덮어씀
     .commit();
 }
+
+export async function setUserToken(userId: string, fcmToken: string) {
+  return client
+    .patch(userId) // 특정 사용자 문서 업데이트
+    .set({ fcmToken }) // 기존 notification을 덮어씀
+    .commit();
+}
