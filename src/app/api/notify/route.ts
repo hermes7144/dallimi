@@ -13,7 +13,7 @@ if (!admin.apps.length) {
 }
 
 // Next.js API Route (Edge Runtime 미지원, Node.js 환경에서만 동작)
-export async function POST(req) {
+export async function POST(req: Request) {
   console.log("🔍 Webhook received");
 
   try {
