@@ -61,11 +61,11 @@ self.addEventListener('notificationclick', function(event) {
   );
 });
 
-messaging.onBackgroundMessage((payload) => {
-  console.log("백그라운드 메시지 수신:", payload);
+// messaging.onBackgroundMessage((payload) => {
+//   console.log("백그라운드 메시지 수신:", payload);
 
-  self.registration.showNotification(payload.notification.title, {
-    body: payload.notification.body,
-    icon: "/icon.png",
-  });
-});
+//   self.registration.showNotification(payload.notification.title, {
+//     body: payload.notification.body,
+//     icon: "/icon.png",
+//   });
+// });
