@@ -2,7 +2,7 @@ import { memo } from 'react';
 
 type Props = {
   events: string[],
-  maxVisibleCount: number;
+  maxVisibleCount?: number;
 }
 
 function EventList({ events, maxVisibleCount = 4 } : Props) {
