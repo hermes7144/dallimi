@@ -42,34 +42,34 @@ export const requestNotificationPermission = async () => {
 
 
 // 서버로 FCM 토큰 전송
-export const sendFCMTokenToServer = async (token: string) => {
+export const sendFCMTokenToServer = async (id: string, token: string, deviceType: 'mobile' | 'pc') => {
   try {
     const response = await fetch('/api/auth', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ token }),
+      body: JSON.stringify({ id, token, deviceType }),
     });
 
     const data = await response.json();
-    console.log('📨 FCM Token Sent:', data);
+    console.log(`📨 FCM Token Sent for ${deviceType}:`, data);
   } catch (error) {
     console.error('❌ Error sending FCM Token:', error);
   }
 };
 
-export function registerServiceWorker() {
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', function () {
-      const serviceWorkerFile = '/firebase-messaging-sw.js';
-      navigator.serviceWorker
-        .register(serviceWorkerFile)
-        .then(function (registration) {
-          console.log('Service Worker가 scope에 등록되었습니다.:', registration.scope);
-        })
-        .catch(function (err) {
-          console.log('Service Worker 등록 실패:', err);
+// export function registerServiceWorker() {
+//   if ('serviceWorker' in navigator) {
+//     window.addEventListener('load', function () {
+//       const serviceWorkerFile = '/firebase-messaging-sw.js';
+//       navigator.serviceWorker
+//         .register(serviceWorkerFile)
+//         .then(function (registration) {
+//           console.log('Service Worker가 scope에 등록되었습니다.:', registration.scope);
+//         })
+//         .catch(function (err) {
+//           console.log('Service Worker 등록 실패:', err);
 
-        });
-    });
-  }
-}
+//         });
+//     });
+//   }
+// }

@@ -28,7 +28,15 @@ export default {
       name: 'image',
       type: 'string'
     },
-    { name: "fcmToken", type: "string" },  // FCM 토큰
+    {
+      name: 'fcmTokens',
+      title: 'FCM Tokens',
+      type: 'object', // 객체로 저장
+      fields: [
+        { name: 'mobile', type: 'string', title: 'Mobile Token' },
+        { name: 'pc', type: 'string', title: 'PC Token' },
+      ],
+    },
     {
       name: "notification",
       title: "Notification Settings",

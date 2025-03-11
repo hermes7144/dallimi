@@ -27,8 +27,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <main>
             <SWRConfigContext>{children}</SWRConfigContext>
           </main>
+        <ClientInitializer />
        </AuthContext>
-       <ClientInitializer />
       </body>
     </html>
   )
