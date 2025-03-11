@@ -11,65 +11,67 @@ const firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
+// Firebase 초기화
 const app = initializeApp(firebaseConfig);
-const messaging = getMessaging(app);
+let messaging: any = null;
 
+// **브라우저 환경에서만 messaging 가져오기**
+export const getFirebaseMessaging = () => {
+  if (typeof window !== "undefined" && "serviceWorker" in navigator) {
+    if (!messaging) {
+      messaging = getMessaging(app);
+    }
+    return messaging;
+  }
+  return null;
+};
+
+// **알림 권한 요청 및 FCM 토큰 가져오기**
 export const requestNotificationPermission = async () => {
   try {
     const permission = await Notification.requestPermission();
-    if (permission === "granted") {
-      console.log("🔔 알림 권한 허용됨");
-
-      // Service Worker 등록
-      const registration = await navigator.serviceWorker.register("/firebase-messaging-sw.js");
-      console.log("✅ Service Worker 등록 성공:", registration);
-
-      // FCM 토큰 가져오기
-      const token = await getToken(messaging, {
-        vapidKey: process.env.NEXT_PUBLIC_FIREBASE_VAPID_KEY,
-        serviceWorkerRegistration: registration, // ✅ 여기 추가
-      });
-
-      console.log("🔥 FCM 토큰:", token);
-      return token;
-    } else {
+    if (permission !== "granted") {
       console.warn("🚫 알림 권한 거부됨");
+      return;
     }
+
+    console.log("🔔 알림 권한 허용됨");
+
+    // Service Worker 등록
+    const registration = await navigator.serviceWorker.register("/firebase-messaging-sw.js");
+    console.log("✅ Service Worker 등록 성공:", registration);
+
+    // FCM Messaging 가져오기
+    const messaging = getFirebaseMessaging();
+    if (!messaging) {
+      throw new Error("Firebase Messaging을 가져올 수 없음");
+    }
+
+    // FCM 토큰 가져오기
+    const token = await getToken(messaging, {
+      vapidKey: process.env.NEXT_PUBLIC_FIREBASE_VAPID_KEY,
+      serviceWorkerRegistration: registration, // ✅ 여기 추가
+    });
+
+    console.log("🔥 FCM 토큰:", token);
+    return token;
   } catch (error) {
     console.error("❌ FCM 토큰 가져오기 실패:", error);
   }
 };
 
-
-// 서버로 FCM 토큰 전송
-export const sendFCMTokenToServer = async (id: string, token: string, deviceType: 'mobile' | 'pc') => {
+// **서버로 FCM 토큰 전송**
+export const sendFCMTokenToServer = async (id: string, token: string, deviceType: "mobile" | "pc") => {
   try {
-    const response = await fetch('/api/auth', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+    const response = await fetch("/api/auth", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ id, token, deviceType }),
     });
 
     const data = await response.json();
     console.log(`📨 FCM Token Sent for ${deviceType}:`, data);
   } catch (error) {
-    console.error('❌ Error sending FCM Token:', error);
+    console.error("❌ Error sending FCM Token:", error);
   }
 };
-
-// export function registerServiceWorker() {
-//   if ('serviceWorker' in navigator) {
-//     window.addEventListener('load', function () {
-//       const serviceWorkerFile = '/firebase-messaging-sw.js';
-//       navigator.serviceWorker
-//         .register(serviceWorkerFile)
-//         .then(function (registration) {
-//           console.log('Service Worker가 scope에 등록되었습니다.:', registration.scope);
-//         })
-//         .catch(function (err) {
-//           console.log('Service Worker 등록 실패:', err);
-
-//         });
-//     });
-//   }
-// }
