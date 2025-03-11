@@ -61,6 +61,16 @@ self.addEventListener('notificationclick', function(event) {
   );
 });
 
+onMessage(messaging, (payload) => {
+  console.log("포그라운드 메시지 수신:", payload);
+
+  // 알림 표시 (서비스 워커가 아닌 클라이언트에서)
+  new Notification(payload.notification.title, {
+    body: payload.notification.body,
+    icon: payload.notification.icon,
+  });
+});
+
 // messaging.onBackgroundMessage((payload) => {
 //   console.log("백그라운드 메시지 수신:", payload);
 
