@@ -1,4 +1,4 @@
-import { getMessaging, getToken } from "firebase/messaging";
+import { getMessaging, getToken, onMessage } from "firebase/messaging";
 import { initializeApp } from "firebase/app";
 
 // Firebase 설정
@@ -75,3 +75,13 @@ export const sendFCMTokenToServer = async (id: string, token: string, deviceType
     console.error("❌ Error sending FCM Token:", error);
   }
 };
+
+onMessage(messaging, (payload) => {
+  console.log("포그라운드 메시지 수신:", payload);
+
+  // 알림 표시 (서비스 워커가 아닌 클라이언트에서)
+  new Notification('title', {
+    body: 'body',
+    icon: ''
+  });
+});
