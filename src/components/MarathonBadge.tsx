@@ -1,7 +1,7 @@
+import { Marathon } from '@/model/marathon';
 import dayjs from 'dayjs';
-import { MarathonProps } from '../types/MarathonProps';
 
-export const MarathonBadge = ({ marathon }: { marathon: MarathonProps }) => {
+export const MarathonBadge = ({ marathon }: { marathon: Marathon }) => {
   const today = dayjs();
 
   let status = '';
