@@ -1,3 +1,4 @@
+import { getActiveUserTokens } from '@/service/user';
 import admin from "firebase-admin";
 
 // Firebase Admin 초기화
@@ -16,23 +17,24 @@ export async function POST(req) {
   console.log("🔍 Webhook received");
 
   try {
-    const { title, body, token } = await req.json();
+    const { name, region, events} = await req.json();    
 
-    if (!title || !body || !token) {
-      return new Response(
-        JSON.stringify({ success: false, error: "Missing required fields" }),
-        { status: 400 }
-      );
-    }
-
-    // FCM 메시지 설정
+    const tokens = await getActiveUserTokens(region, events);
+    
+    if (!tokens.length) return new Response(
+      JSON.stringify({ success: false, error: '토큰이없어요' }),
+      { status: 400, headers: { "Content-Type": "application/json" } }
+    );
     const message = {
-      notification: { title, body },
-      token,
+      notification: {
+        title: name,
+        body: `${region} ${events}`,
+      },
+      tokens: tokens, // 필터링된 유저들의 FCM 토큰
     };
 
     // FCM 전송
-    const response = await admin.messaging().send(message);
+    const response = await admin.messaging().sendEachForMulticast(message);
 
     console.log("✅ FCM sent successfully:", response);
     return new Response(JSON.stringify({ success: true, response }), {

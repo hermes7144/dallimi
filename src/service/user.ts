@@ -43,3 +43,28 @@ export async function setUserToken(userId: string, fcmToken: string) {
     .set({ fcmToken }) // 기존 notification을 덮어씀
     .commit();
 }
+
+export async function getActiveUserTokens(region: string, events: string[]): Promise<string[]> {
+  try {
+    const query = `*[_type == "user" && notification.isEnabled == true && 
+      "${region}" in notification.regions && 
+      count(notification.events[(@ in ${JSON.stringify(events)})]) > 0]{
+      fcmTokens
+    }`;
+
+    // 데이터 가져오기
+    const users = await client.fetch(query);
+
+    // FCM 토큰을 추출하고 평탄화
+    const tokens = users.flatMap((user: {fcmTokens: {mobile:string; pc: string}}) => [
+      user.fcmTokens.mobile,
+      user.fcmTokens.pc
+    ].filter(Boolean)); // undefined/null 값 제거
+
+    return tokens;
+
+  } catch (error) {
+    console.error("Error fetching user tokens from Sanity:", error);
+    throw new Error("Unable to fetch user tokens");
+  }
+}
