@@ -10,14 +10,14 @@ export const predefinedEvents  : string[] = ['Full', 'Half', '10km', '5km'];
 
 const NotificationSettings = () => {
   const { user, setNotification } = useMe();
-  const [notify, setNotify] = useState(user?.notification?.isEnabled || false);
+  const [isNotify, setIsNotify] = useState(user?.notification?.isEnabled || false);
   const [regions, setRegions] = useState<string[]>(user?.notification?.regions || []);
   const [events, setEvents] = useState<string[]>(user?.notification?.events || []);
   const router = useRouter();
 
   useEffect(() => {
     if (user?.notification) {
-      setNotify(user.notification.isEnabled);
+      setIsNotify(user.notification.isEnabled);
       setRegions(user.notification.regions || []);
       setEvents(user.notification.events || []);
     }
@@ -28,7 +28,7 @@ const NotificationSettings = () => {
   };
 
   const handleSubmit = () => {
-    setNotification({ notify, regions, events });
+    setNotification({ isNotify, regions, events });
     router.back();
   };
 
@@ -44,7 +44,7 @@ const NotificationSettings = () => {
       <div className='my-6'>
         <label className='cursor-pointer flex justify-between'>
           <h3 className='font-semibold mb-2'>알림 기능 사용</h3>
-          <input type='checkbox' className='toggle toggle-primary' onChange={() => setNotify((prev) => !prev)} checked={notify} />
+          <input type='checkbox' className='toggle toggle-primary' onChange={() => setIsNotify((prev) => !prev)} checked={isNotify} />
         </label>
         <h3 className='font-semibold mb-2'>지역</h3>
         <div className='flex flex-wrap gap-2'>
