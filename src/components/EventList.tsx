@@ -1,6 +1,11 @@
 import { memo } from 'react';
 
-function EventList({ events, maxVisibleCount = 4 }) {
+type Props = {
+  events: string[],
+  maxVisibleCount: number;
+}
+
+function EventList({ events, maxVisibleCount = 4 } : Props) {
 
   const visibleEvents = events.slice(0, maxVisibleCount);
   const hiddenEvents = events.length > maxVisibleCount ? events.slice(maxVisibleCount) : [];
