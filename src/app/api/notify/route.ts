@@ -1,5 +1,6 @@
 import { getActiveUserTokens } from '@/service/user';
 import admin from "firebase-admin";
+import { NextRequest } from 'next/server';
 
 // Firebase Admin 초기화
 if (!admin.apps.length) {
@@ -13,7 +14,7 @@ if (!admin.apps.length) {
 }
 
 // Next.js API Route (Edge Runtime 미지원, Node.js 환경에서만 동작)
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   console.log("🔍 Webhook received");
 
   try {
@@ -21,10 +22,10 @@ export async function POST(req: Request) {
 
     const tokens = await getActiveUserTokens(region, events);
     
-    if (!tokens.length) return new Response(
-      JSON.stringify({ success: false, error: '토큰이없어요' }),
-      { status: 400, headers: { "Content-Type": "application/json" } }
-    );
+    if (!tokens.length) {
+      return new Response(
+        JSON.stringify('토큰이 없어요') , {status: 500})
+    }
     const message = {
       notification: {
         title: name,
@@ -44,8 +45,6 @@ export async function POST(req: Request) {
   } catch (error) {
     console.error("❌ Error sending FCM:", error);
     return new Response(
-      JSON.stringify({ success: false, error: error.message }),
-      { status: 500, headers: { "Content-Type": "application/json" } }
-    );
+      JSON.stringify(error) , {status: 500})
   }
 }
