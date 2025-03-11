@@ -28,9 +28,10 @@ self.addEventListener('push', function(event) {
   const body = message.data.body;
   const icon = message.data.icon;
 
-  const currentOrigin = self.location.origin;
-  const clickAction = currentOrigin === 'https://runal.netlify.app'
-    ? 'https://runal.netlify.app/' :'https://dev-runal.netlify.app/';
+  // const currentOrigin = self.location.origin;
+  // const clickAction = currentOrigin === 'https://runal.netlify.app'
+  //   ? 'https://runal.netlify.app/' :'https://dev-runal.netlify.app/';
+  const clickAction = 'https://dallimi.vercel.app/';
 
   const options = {
     body,
@@ -60,11 +61,11 @@ self.addEventListener('notificationclick', function(event) {
   );
 });
 
-// messaging.onBackgroundMessage((payload) => {
-//   console.log("백그라운드 메시지 수신:", payload);
+messaging.onBackgroundMessage((payload) => {
+  console.log("백그라운드 메시지 수신:", payload);
 
-//   self.registration.showNotification(payload.notification.title, {
-//     body: payload.notification.body,
-//     icon: "/icon.png",
-//   });
-// });
+  self.registration.showNotification(payload.notification.title, {
+    body: payload.notification.body,
+    icon: "/icon.png",
+  });
+});
