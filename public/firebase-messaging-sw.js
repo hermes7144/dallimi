@@ -27,7 +27,7 @@ self.addEventListener('push', function(event) {
 
   console.log(message);
 
-  const title = message.notification.title;
+  const title = message.notification.title + '백그라운드';
   const body = message.notification.body;
   const icon = message.notification?.icon;
 
