@@ -19,7 +19,7 @@ const ClientInitializer = () => {
           sendFCMTokenToServer(user.id, token, deviceType);
         }
       });
-      setupOnMessageListener();
+      // setupOnMessageListener();
     }
   }, [user]);
 
