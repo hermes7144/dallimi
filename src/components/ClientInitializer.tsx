@@ -9,6 +9,12 @@ const ClientInitializer = () => {
   const user = session?.user;
 
   useEffect(() => {
+    navigator.serviceWorker.getRegistrations().then((registrations) => {
+      registrations.forEach((registration) => {
+        registration.unregister();
+      });
+    });
+
     if (user?.id) {
       requestNotificationPermission().then((token) => {
         if (token) {

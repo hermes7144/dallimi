@@ -22,10 +22,9 @@ self.addEventListener("activate", function (e) {
 });
 
 self.addEventListener('push', function(event) {
+  event.preventDefault(); // 기본 알림 표시 방지
 
   const message = event.data.json();  // FCM 메시지
-
-  console.log(message);
 
   const title = message.notification.title + '백그라운드';
   const body = message.notification.body;
