@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { requestNotificationPermission, sendFCMTokenToServer } from "@/service/notification";
+import { requestNotificationPermission, sendFCMTokenToServer, setupOnMessageListener } from "@/service/notification";
 import { useSession } from "next-auth/react";
 
 const ClientInitializer = () => {
@@ -19,6 +19,7 @@ const ClientInitializer = () => {
           sendFCMTokenToServer(user.id, token, deviceType);
         }
       });
+      setupOnMessageListener();
     }
   }, [user]);
 

@@ -1,7 +1,7 @@
-import { getMessaging, getToken, onMessage } from "firebase/messaging";
+import { getMessaging, getToken, onMessage, Messaging } from "firebase/messaging";
 import { initializeApp } from "firebase/app";
 
-// Firebase 설정
+// ✅ Firebase 설정
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
   authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
@@ -11,12 +11,12 @@ const firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
-// Firebase 초기화
+// ✅ Firebase 초기화
 const app = initializeApp(firebaseConfig);
-let messaging: any = null;
+let messaging: Messaging | null = null;
 
-// **브라우저 환경에서만 messaging 가져오기**
-export const getFirebaseMessaging = () => {
+// ✅ 클라이언트 환경에서만 Firebase Messaging 가져오기
+export const getFirebaseMessaging = (): Messaging | null => {
   if (typeof window !== "undefined" && "serviceWorker" in navigator) {
     if (!messaging) {
       messaging = getMessaging(app);
@@ -26,7 +26,7 @@ export const getFirebaseMessaging = () => {
   return null;
 };
 
-// **알림 권한 요청 및 FCM 토큰 가져오기**
+// ✅ 알림 권한 요청 및 FCM 토큰 가져오기
 export const requestNotificationPermission = async () => {
   try {
     const permission = await Notification.requestPermission();
@@ -50,7 +50,7 @@ export const requestNotificationPermission = async () => {
     // FCM 토큰 가져오기
     const token = await getToken(messaging, {
       vapidKey: process.env.NEXT_PUBLIC_FIREBASE_VAPID_KEY,
-      serviceWorkerRegistration: registration, // ✅ 여기 추가
+      serviceWorkerRegistration: registration, // ✅ 추가
     });
 
     console.log("🔥 FCM 토큰:", token);
@@ -60,7 +60,7 @@ export const requestNotificationPermission = async () => {
   }
 };
 
-// **서버로 FCM 토큰 전송**
+// ✅ 서버로 FCM 토큰 전송
 export const sendFCMTokenToServer = async (id: string, token: string, deviceType: "mobile" | "pc") => {
   try {
     const response = await fetch("/api/auth", {
@@ -76,3 +76,16 @@ export const sendFCMTokenToServer = async (id: string, token: string, deviceType
   }
 };
 
+// ✅ 포그라운드 메시지 수신 설정
+export const setupOnMessageListener = () => {
+  const messaging = getFirebaseMessaging();
+  if (!messaging) return;
+
+  onMessage(messaging, (payload) => {
+    console.log("📩 포그라운드 메시지 수신:", payload);
+    new Notification(payload.notification?.title || "알림", {
+      body: payload.notification?.body || "",
+      icon: payload.notification?.image || "",
+    });
+  });
+};

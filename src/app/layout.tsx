@@ -5,7 +5,6 @@ import Navbar from '@/components/Navbar'
 import AuthContext from '@/context/AuthContext'
 import SWRConfigContext from '@/context/SWRConfigContext'
 import ClientInitializer from '@/components/ClientInitializer'
-import { useFCM } from '@/hooks/useFCM'
 
 const openSans = Open_Sans({ subsets: ['latin'] })
 
@@ -17,7 +16,6 @@ export const metadata: Metadata = {
 
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  useFCM(); // FCM 메시지 리스너 활성화
 
   return (
     <html lang="en" className={openSans.className}>
