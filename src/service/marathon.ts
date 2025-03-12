@@ -33,4 +33,4 @@ async function deleteAllMarathons() {
   }
 }
 
-deleteAllMarathons();
+// deleteAllMarathons();
