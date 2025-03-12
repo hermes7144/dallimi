@@ -24,12 +24,12 @@ self.addEventListener("activate", function (e) {
 self.addEventListener('push', function(event) {
 
   const message = event.data.json();  // FCM 메시지
-  console.log(message);
-  
 
-  const title = message.data.title;
-  const body = message.data.body;
-  const icon = message.data.icon;
+  console.log(message);
+
+  const title = message.notification.title;
+  const body = message.notification.body;
+  const icon = message.notification?.icon;
 
   // const currentOrigin = self.location.origin;
   // const clickAction = currentOrigin === 'https://runal.netlify.app'
@@ -63,12 +63,3 @@ self.addEventListener('notificationclick', function(event) {
     clients.openWindow(clickAction)
   );
 });
-
-// messaging.onBackgroundMessage((payload) => {
-//   console.log("백그라운드 메시지 수신:", payload);
-
-//   self.registration.showNotification(payload.notification.title, {
-//     body: payload.notification.body,
-//     icon: "/icon.png",
-//   });
-// });
