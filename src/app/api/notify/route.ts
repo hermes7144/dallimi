@@ -30,6 +30,7 @@ export async function POST(req: NextRequest) {
       notification: {
         title: name,
         body: `${region} ${events}`,
+        badge: '/icons/favicon-32x32.png',
       },
       tokens: tokens, // 필터링된 유저들의 FCM 토큰
     };
