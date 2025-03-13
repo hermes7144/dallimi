@@ -16,6 +16,11 @@ if (!admin.apps.length) {
 
 
 export async function POST() {
+  // if (req.headers.get('Authorization') !== `Bearer ${process.env.CRON_SECRET}`) {
+  //   return NextResponse.json({ ok: false, message: 'Unauthorized' }, { status: 401 });
+  // }
+
+
   const tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + 1); // 내일 날짜
   const tomorrowStr = tomorrow.toISOString().split("T")[0]; // YYYY-MM-DD 포맷
