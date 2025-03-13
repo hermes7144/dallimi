@@ -10,37 +10,59 @@ if (!admin.apps.length) {
   });
 }
 
-export async function POST(req: NextRequest) {
-  try {
-    const { marathonId } = await req.json();
-    if (!marathonId) return NextResponse.json({ error: "마라톤 ID가 필요합니다." }, { status: 400 });
+export async function GET() {
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1); // 내일 날짜
+  const tomorrowStr = tomorrow.toISOString().split("T")[0]; // YYYY-MM-DD 포맷
 
-    // 마라톤 참가자들의 FCM 토큰 조회
+  console.log(`🔔 Sending notifications for marathons on: ${tomorrowStr}`);
+
+  // 내일 진행될 모든 마라톤 목록 가져오기
+  const marathons = await client.fetch(
+    `*[_type == "marathon" && date == $date]{
+      _id,
+      participants
+    }`,
+    { date: tomorrowStr }
+  );
+
+  if (marathons.length === 0) {
+    console.log("🚫 No marathons found for tomorrow.");
+    return;
+  }
+
+  // 마라톤 참가자들의 FCM 토큰을 추출
+  for (const marathon of marathons) {
+    if (!marathon.participants?.length) continue;
+
+    // 참가자들의 FCM 토큰 조회
     const users = await client.fetch(
-      `*[_type == "user" && _id in *[_type == "marathon" && _id == $id][0].participants]{ _id, fcmTokens }`,
-      { id: marathonId }
+      `*[_type == "user" && _id in $ids]{ _id, fcmTokens }`,
+      { ids: marathon.participants }
     );
 
+    // FCM 토큰 추출 (모바일 + PC 토큰)
     const tokens = users.flatMap((user: FCMUser) => [user.fcmTokens?.mobile, user.fcmTokens?.pc]).filter(Boolean);
-    if (!tokens.length) {
-      return NextResponse.json({ success: false, message: "No FCM tokens found." });
-    }
+    
+    if (!tokens.length) continue;
 
     // FCM 메시지 전송
     const payload = {
       notification: {
-        title: "🏃‍♂️ 마라톤 알림",
-        body: "내일 마라톤이 시작됩니다! 준비하세요!",
+        title: "🏃‍♂️ 내일 마라톤 시작!",
+        body: "내일 진행될 마라톤을 준비하세요!",
       },
     };
 
-    const response = await admin.messaging().sendEachForMulticast({
-      tokens,
-      ...payload,
-    });
-
-    return NextResponse.json({ success: true, response });
-  } catch (error) {
-    return NextResponse.json({ error: "Failed to send notifications" }, { status: 500 });
+    // FCM 푸시 메시지 발송
+    try {
+      const response = await admin.messaging().sendEachForMulticast({
+        tokens,
+        ...payload,
+      });
+      console.log(`✅ Notifications sent to participants of marathon: ${marathon._id}`);
+    } catch (error) {
+      console.error(`🚨 Failed to send notifications for marathon ${marathon._id}:`, error);
+    }
   }
 }
