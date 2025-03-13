@@ -79,7 +79,7 @@ export async function GET() {
   }
 
   if (!notificationSent) {
-    return NextResponse.json({ ok: false, message: "No notifications were sent." }, { status: 500 });
+    return NextResponse.json({ ok: false, message: "No notifications were sent." + marathons }, { status: 500 });
   }
 
   return NextResponse.json({ ok: true });
