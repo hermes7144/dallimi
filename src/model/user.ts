@@ -6,6 +6,13 @@ export type AuthUser = {
   username: string;
 }
 
+export type FCMUser = AuthUser & {
+  fcmTokens: {
+    mobile:string;
+    pc:string;
+  }
+
+}
 
 export type HomeUser = AuthUser & {
   notification: {

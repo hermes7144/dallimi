@@ -72,8 +72,13 @@ export default {
     { 
       name: "participants", 
       type: "array", 
-      title: "사용자 토큰들", 
-      of: [{ type: "string" }] 
+      title: "참여자", 
+      of: [
+        {
+          type: 'reference',
+          to: [{type: 'user'}]
+        }
+      ],
     },
   ],
   preview: {
