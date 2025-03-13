@@ -69,6 +69,12 @@ export default {
       name: 'isClosed',
       type: 'boolean'
     },
+    { 
+      name: "participants", 
+      type: "array", 
+      title: "사용자 토큰들", 
+      of: [{ type: "string" }] 
+    },
   ],
   preview: {
     select: {
