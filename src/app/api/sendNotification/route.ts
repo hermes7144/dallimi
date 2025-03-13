@@ -15,32 +15,29 @@ if (!admin.apps.length) {
 }
 
 export async function GET() {
-  // 인증 코드가 필요한 경우 주석 해제
-  // if (req.headers.get('Authorization') !== `Bearer ${process.env.CRON_SECRET}`) {
-  //   return NextResponse.json({ ok: false, message: 'Unauthorized' }, { status: 401 });
-  // }
-
+  const today = new Date().toISOString().split("T")[0];     // YYYY-MM-DD (오늘)
   const tomorrow = new Date();
-  tomorrow.setDate(tomorrow.getDate() + 1); // 내일 날짜
-  const tomorrowStr = tomorrow.toISOString().split("T")[0]; // YYYY-MM-DD 포맷
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  const tomorrowStr = tomorrow.toISOString().split("T")[0]; // YYYY-MM-DD (내일)
 
-  console.log(`🔔 Sending notifications for marathons on: ${tomorrowStr}`);
+  console.log(`🔔 Sending notifications for marathons on: ${tomorrowStr} or registration on: ${today}`);
 
-  // 내일 진행될 모든 마라톤 목록 가져오기
+  // 내일 개최되는 마라톤 또는 오늘 신청 시작하는 마라톤 가져오기
   const marathons = await client.fetch(
-    `*[_type == "marathon" && date == $date]{
+    `*[_type == "marathon" && (date == $tomorrow || startDate == $today)]{
       _id,
+      date,
+      startDate,
       participants
     }`,
-    { date: tomorrowStr }
+    { today, tomorrow: tomorrowStr }
   );
 
   if (marathons.length === 0) {
-    console.log("🚫 No marathons found for tomorrow.");
+    console.log("🚫 No marathons found for notification.");
     return NextResponse.json({ ok: true });
   }
 
-  // 마라톤 참가자들에게 푸시 알림을 전송
   let notificationSent = false;
 
   for (const marathon of marathons) {
@@ -51,26 +48,32 @@ export async function GET() {
       }`,
       { id: marathon._id }
     );
-    
+
     // FCM 토큰 추출 (모바일 + PC 토큰)
     const tokens = users.flatMap((user: FCMUser) => [
       user.fcmTokens?.mobile,
       user.fcmTokens?.pc
     ]).filter(Boolean);
-    
+
     if (!tokens.length) continue;
 
-    // const tokens = ['dCZoVYKv4ZmeisjSXGSeO8:APA91bH47Jqo4Gs58DrfLtis9it_qFy6eu1jmEui2Er7ZYBV9Ba75KblHlE2lZfCAwAfFR9IZVUYhqr7NIOcRxmq-VOSAfRUfqH-aTtRei4AhRcBu4Jpffk'];
+    // 마라톤 개최 알림 or 참가 신청 알림 분기 처리
+    let title, body;
+    if (marathon.date === tomorrowStr) {
+      title = `🏃‍♂️ 내일 ${marathon.name} 시작!`;
+      body = "내일 진행될 마라톤을 준비하세요!";
+    } else if (marathon.startDate === today) {
+      title = `📢 ${marathon.name} 신청 시작!`;
+      body = "오늘부터 마라톤 참가 신청이 가능합니다!";
+    } else {
+      continue;
+    }
 
     // FCM 메시지 전송
     const payload = {
-      notification: {
-        title: "🏃‍♂️ 내일 마라톤 시작!",
-        body: "내일 진행될 마라톤을 준비하세요!",
-      },
+      notification: { title, body },
     };
 
-    // FCM 푸시 메시지 발송
     try {
       const response = await admin.messaging().sendEachForMulticast({
         tokens,
@@ -84,7 +87,7 @@ export async function GET() {
   }
 
   if (!notificationSent) {
-    return NextResponse.json({ ok: false, message: "No notifications were sent." + marathons[0]._id }, { status: 500 });
+    return NextResponse.json({ ok: false, message: "No notifications were sent." }, { status: 500 });
   }
 
   return NextResponse.json({ ok: true });
