@@ -27,7 +27,7 @@ export async function GET() {
   );
 
   if (marathons.length === 0) {
-    console.log("🚫 No marathons found for tomorrow.");
+    console.log("🚫 No marathons found   for tomorrow.");
     return;
   }
 
