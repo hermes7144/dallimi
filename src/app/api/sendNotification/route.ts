@@ -15,7 +15,7 @@ if (!admin.apps.length) {
 }
 
 
-export async function POST() {
+export async function GET() {
   // if (req.headers.get('Authorization') !== `Bearer ${process.env.CRON_SECRET}`) {
   //   return NextResponse.json({ ok: false, message: 'Unauthorized' }, { status: 401 });
   // }
