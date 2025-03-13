@@ -26,6 +26,7 @@ export async function GET() {
   const marathons = await client.fetch(
     `*[_type == "marathon" && (date == $tomorrow || startDate == $today)]{
       _id,
+      name,
       date,
       startDate,
       participants
