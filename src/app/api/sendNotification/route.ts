@@ -33,7 +33,7 @@ export async function GET() {
 
   if (marathons.length === 0) {
     console.log("🚫 No marathons found for tomorrow.");
-    return;
+    return NextResponse.json({ ok: true });
   }
 
   // 마라톤 참가자들의 FCM 토큰을 추출
@@ -68,9 +68,7 @@ export async function GET() {
       console.log(`✅ Notifications sent to participants of marathon: ${marathon._id}`);
       return NextResponse.json({ ok: true });
     } catch (error) {
-      console.error(`🚨 Failed to send notifications for marathon ${marathon._id}:`, error);
-      return NextResponse.json({ ok: false });
-
+      return NextResponse.json({ ok: false, message: "Some notifications failed." }, { status: 500 });
     }
   }
 }
