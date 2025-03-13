@@ -1,6 +1,8 @@
 import { getActiveUserTokens } from '@/service/user';
 import admin from "firebase-admin";
 import { NextRequest } from 'next/server';
+import { mutate } from 'swr';
+
 
 // Firebase Admin 초기화
 if (!admin.apps.length) {
@@ -16,6 +18,8 @@ if (!admin.apps.length) {
 // Next.js API Route (Edge Runtime 미지원, Node.js 환경에서만 동작)
 export async function POST(req: NextRequest) {
   console.log("🔍 Webhook received");
+
+  mutate('/api/marathons');
 
   try {
     const { name, region, events} = await req.json();    
