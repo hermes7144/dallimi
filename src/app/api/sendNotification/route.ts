@@ -66,6 +66,7 @@ export async function GET() {
         ...payload,
       });
       console.log(`✅ Notifications sent to participants of marathon: ${marathon._id}`);
+      return NextResponse.json({ ok: true });
     } catch (error) {
       console.error(`🚨 Failed to send notifications for marathon ${marathon._id}:`, error);
     }
