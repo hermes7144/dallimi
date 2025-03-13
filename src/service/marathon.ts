@@ -2,6 +2,8 @@ import { Marathon } from '@/model/marathon';
 import { client, urlFor } from './sanity';
 
 export async function getMarathons() {
+
+
   return client
     .fetch(
       `*[_type == "marathon"]`
@@ -26,7 +28,12 @@ async function deleteAllMarathons() {
       return;
     }
 
-    await Promise.all(marathons.map((doc: Marathon) => client.delete(doc._id)));
+    let transaction = client.transaction();
+    marathons.forEach((doc: Marathon) => {
+      transaction = transaction.delete(doc._id);
+    });
+
+    await transaction.commit();
     console.log(`✅ ${marathons.length}개의 마라톤 문서가 삭제되었습니다.`);
   } catch (error) {
     console.error("❌ 마라톤 문서 삭제 실패:", error);
