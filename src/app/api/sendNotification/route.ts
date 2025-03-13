@@ -14,12 +14,11 @@ if (!admin.apps.length) {
   });
 }
 
-
 export async function GET() {
+  // 인증 코드가 필요한 경우 주석 해제
   // if (req.headers.get('Authorization') !== `Bearer ${process.env.CRON_SECRET}`) {
   //   return NextResponse.json({ ok: false, message: 'Unauthorized' }, { status: 401 });
   // }
-
 
   const tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + 1); // 내일 날짜
@@ -41,7 +40,9 @@ export async function GET() {
     return NextResponse.json({ ok: true });
   }
 
-  // 마라톤 참가자들의 FCM 토큰을 추출
+  // 마라톤 참가자들에게 푸시 알림을 전송
+  let notificationSent = false;
+
   for (const marathon of marathons) {
     if (!marathon.participants?.length) continue;
 
@@ -53,7 +54,7 @@ export async function GET() {
 
     // FCM 토큰 추출 (모바일 + PC 토큰)
     const tokens = users.flatMap((user: FCMUser) => [user.fcmTokens?.mobile, user.fcmTokens?.pc]).filter(Boolean);
-    
+
     if (!tokens.length) continue;
 
     // FCM 메시지 전송
@@ -71,9 +72,15 @@ export async function GET() {
         ...payload,
       });
       console.log(`✅ Notifications sent to participants of marathon: ${marathon._id}`);
-      return NextResponse.json({ ok: true });
+      notificationSent = true;
     } catch (error) {
-      return NextResponse.json({ ok: false, message: "Some notifications failed." }, { status: 500 });
+      console.error("❌ Failed to send notifications:", error);
     }
   }
+
+  if (!notificationSent) {
+    return NextResponse.json({ ok: false, message: "No notifications were sent." }, { status: 500 });
+  }
+
+  return NextResponse.json({ ok: true });
 }
