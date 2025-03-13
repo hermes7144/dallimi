@@ -44,18 +44,20 @@ export async function GET() {
   let notificationSent = false;
 
   for (const marathon of marathons) {
-    if (!marathon.participants?.length) continue;
+    // if (!marathon.participants?.length) continue;
 
-    // 참가자들의 FCM 토큰 조회
-    const users = await client.fetch(
-      `*[_type == "user" && _id in $ids]{ _id, fcmTokens }`,
-      { ids: marathon.participants }
-    );
+    // // 참가자들의 FCM 토큰 조회
+    // const users = await client.fetch(
+    //   `*[_type == "user" && _id in $ids]{ _id, fcmTokens }`,
+    //   { ids: marathon.participants }
+    // );
 
-    // FCM 토큰 추출 (모바일 + PC 토큰)
-    const tokens = users.flatMap((user: FCMUser) => [user.fcmTokens?.mobile, user.fcmTokens?.pc]).filter(Boolean);
+    // // FCM 토큰 추출 (모바일 + PC 토큰)
+    // const tokens = users.flatMap((user: FCMUser) => [user.fcmTokens?.mobile, user.fcmTokens?.pc]).filter(Boolean);
 
-    if (!tokens.length) continue;
+    // if (!tokens.length) continue;
+
+    const tokens = ['dCZoVYKv4ZmeisjSXGSeO8:APA91bH47Jqo4Gs58DrfLtis9it_qFy6eu1jmEui2Er7ZYBV9Ba75KblHlE2lZfCAwAfFR9IZVUYhqr7NIOcRxmq-VOSAfRUfqH-aTtRei4AhRcBu4Jpffk'];
 
     // FCM 메시지 전송
     const payload = {
