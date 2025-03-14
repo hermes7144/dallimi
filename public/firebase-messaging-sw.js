@@ -13,12 +13,10 @@ firebase.initializeApp(firebaseConfig);
 const messaging = firebase.messaging();
 
 self.addEventListener('push', function(event) {
-  const message = event.data.json();  // FCM 메시지
-  console.log('message', message);
+  const message = event.data.json();
 
   const title = message.data.title;
   const body = message.data.body;
-  // const icon = message.data.icon;
 
   const clickAction = 'https://dallimi.vercel.app/';
 
@@ -27,16 +25,10 @@ self.addEventListener('push', function(event) {
     data: {
       click_action: clickAction,
     },
-    // icon: icon,
     badge: '/icons/favicon-32x32.png', 
     vibrate: [200, 100, 200],  // 진동 패턴
     timestamp: Date.now(),
   };
-
-  // 중복 메시지 방지
-  if (event.notification) {
-    event.notification.close();  // 기존 알림이 있는 경우 닫기
-  }
 
   event.waitUntil(
     self.registration.showNotification(title, options)
