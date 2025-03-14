@@ -16,8 +16,8 @@ self.addEventListener('push', function(event) {
   const message = event.data.json();  // FCM 메시지
   console.log('message', message);
 
-  const title = message.notification.title;
-  const body = message.notification.body;
+  const title = message.data.title;
+  const body = message.data.body;
   const clickAction = 'https://dallimi.vercel.app/';
 
   const options = {
@@ -43,7 +43,7 @@ self.addEventListener('push', function(event) {
 
 self.addEventListener('notificationclick', function(event) {
   event.notification.close();  // 알림을 닫습니다.
-  const clickAction = event.data.data.click_action;
+  const clickAction = event.notification.data.click_action;
   
   event.waitUntil(
     clients.openWindow(clickAction)
