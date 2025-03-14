@@ -13,7 +13,8 @@ firebase.initializeApp(firebaseConfig);
 const messaging = firebase.messaging();
 
 self.addEventListener('push', function(event) {
-
+  console.log('message',message);
+  return;
   const message = event.data.json();  // FCM 메시지
   const title = message.data.title;
   const body = message.data.body;
@@ -45,7 +46,7 @@ self.addEventListener('push', function(event) {
 
 self.addEventListener('notificationclick', function(event) {
   event.notification.close();  // 알림을 닫습니다.
-
+  console.log('event', event)
   const clickAction = event.notification.data.click_action;
   
   event.waitUntil(
