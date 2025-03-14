@@ -12,29 +12,47 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const messaging = firebase.messaging();
 
-self.addEventListener('notificationclick', (event) => {
-  console.log('Notification clicked', event);
+self.addEventListener('push', function(event) {
 
-  // 알림을 클릭하면 새로운 탭이나 창을 여는 동작
-  const notification = event.notification;
-  // const url = notification.data.url || '/'; // 기본 URL은 홈페이지로 설정
-  const url = 'https://dallimi.vercel.app/';
+  const message = event.data.json();  // FCM 메시지
+  const title = message.data.title;
+  const body = message.data.body;
+  const icon = message.data.icon;
 
-  // 알림을 클릭했을 때 기존 탭이 있으면 포커스를 맞추고 없으면 새 탭을 엶
-  event.notification.close(); // 알림 닫기
+  const currentOrigin = self.location.origin;
+  // const clickAction = currentOrigin === 'https://runal.netlify.app'
+  //   ? 'https://runal.netlify.app/' :'https://dev-runal.netlify.app/';
+
+  const clickAction = 'https://dallimi.vercel.app/';
+
+  const options = {
+    body,
+    // notificationclick 있으면?
+    data: {
+      click_action: clickAction,
+    },
+    // 배지, 아이콘?
+    icon: icon, 
+    badge: '/icons/favicon-32x32.png', 
+    vibrate: [200, 100, 200],  // 진동 패턴
+    timestamp: Date.now(),
+  };
+
   event.waitUntil(
-    clients.matchAll({ type: 'window' }).then((clientList) => {
-      // 이미 열린 클라이언트가 있으면 그 클라이언트로 포커스 이동
-      const client = clientList.find((client) => client.url === url);
-      if (client) {
-        return client.focus();
-      } else {
-        // 없으면 새 탭을 엶
-        return clients.openWindow(url);
-      }
-    })
+    self.registration.showNotification(title, options)
   );
 });
+
+self.addEventListener('notificationclick', function(event) {
+  event.notification.close();  // 알림을 닫습니다.
+
+  const clickAction = event.notification.data.click_action;
+  
+  event.waitUntil(
+    clients.openWindow(clickAction)
+  );
+});
+
 
 // messaging.onBackgroundMessage(messaging, (payload) => {
 //   console.log('[firebase-messaging-sw.js] Received background message ', payload);
