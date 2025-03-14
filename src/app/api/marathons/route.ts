@@ -16,8 +16,6 @@ export async function GET() {
   // const username = user.email?.split('@')[0];
 
   return getMarathons().then((data) => 
-    NextResponse.json(data, {
-      headers: { 'Cache-Control': 'no-store' }, // Vercel 캐싱 비활성화
-    })
+    NextResponse.json(data)
   )
 }
