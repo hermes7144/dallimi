@@ -18,7 +18,7 @@ self.addEventListener('push', function(event) {
 
   const title = message.data.title;
   const body = message.data.body;
-  const icon = message.data.icon;
+  // const icon = message.data.icon;
 
   const clickAction = 'https://dallimi.vercel.app/';
 
@@ -27,7 +27,7 @@ self.addEventListener('push', function(event) {
     data: {
       click_action: clickAction,
     },
-    icon: icon,
+    // icon: icon,
     badge: '/icons/favicon-32x32.png', 
     vibrate: [200, 100, 200],  // 진동 패턴
     timestamp: Date.now(),

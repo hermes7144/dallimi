@@ -32,7 +32,6 @@ export async function POST(req: NextRequest) {
       data: {
         title: name,
         body: `${region} ${events}`,
-        icon: image
       },
       tokens: tokens, // 필터링된 유저들의 FCM 토큰
     };
