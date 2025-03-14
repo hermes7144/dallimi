@@ -32,7 +32,9 @@ self.addEventListener('push', function(event) {
       click_action: clickAction,
     },
     // 배지, 아이콘?
-    icon: icon, 
+    
+    // icon: icon, 
+    icon: '/icons/favicon-32x32.png', 
     badge: '/icons/favicon-32x32.png', 
     vibrate: [200, 100, 200],  // 진동 패턴
     timestamp: Date.now(),
