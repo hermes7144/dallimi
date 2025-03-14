@@ -4,9 +4,7 @@ const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export default function useMarathons() {
   const { data: marathons, isLoading, error, mutate } =useSWR<Marathon[]>('/api/marathons', fetcher, {
-    revalidateOnMount: true, // 마운트될 때마다 새로 요청
-    revalidateOnFocus: true, // 페이지 포커스 시 자동 리프레시
-    revalidateOnReconnect: true,
+    refreshInterval: 30000, // 30초마다 데이터를 자동으로 갱신
   });
   return { marathons, isLoading, error };
 }
