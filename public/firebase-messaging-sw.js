@@ -41,11 +41,11 @@ self.addEventListener('push', function(event) {
   );
 });
 
-// self.addEventListener('notificationclick', function(event) {
-//   event.notification.close();  // 알림을 닫습니다.
-//   const clickAction = event.notification.data.click_action;
+self.addEventListener('notificationclick', function(event) {
+  event.notification.close();  // 알림을 닫습니다.
+  const clickAction = event.data.data.click_action;
   
-//   event.waitUntil(
-//     clients.openWindow(clickAction)
-//   );
-// });
+  event.waitUntil(
+    clients.openWindow(clickAction)
+  );
+});

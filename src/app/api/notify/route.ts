@@ -29,7 +29,7 @@ export async function POST(req: NextRequest) {
         JSON.stringify('토큰이 없어요') , {status: 500})
     }
     const message = {
-      notification: {
+      data: {
         title: name,
         body: `${region} ${events}`,
         // icon: '/icons/favicon-32x32.png',

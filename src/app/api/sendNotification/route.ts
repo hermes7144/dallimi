@@ -72,7 +72,7 @@ export async function GET() {
 
     // FCM 메시지 전송
     const payload = {
-      notification: { title, body },
+      data: { title, body },
     };
 
     try {
