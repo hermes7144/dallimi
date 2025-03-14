@@ -12,6 +12,30 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const messaging = firebase.messaging();
 
+self.addEventListener('notificationclick', (event) => {
+  console.log('Notification clicked', event);
+
+  // 알림을 클릭하면 새로운 탭이나 창을 여는 동작
+  const notification = event.notification;
+  // const url = notification.data.url || '/'; // 기본 URL은 홈페이지로 설정
+  const url = 'https://dallimi.vercel.app/';
+
+  // 알림을 클릭했을 때 기존 탭이 있으면 포커스를 맞추고 없으면 새 탭을 엶
+  event.notification.close(); // 알림 닫기
+  event.waitUntil(
+    clients.matchAll({ type: 'window' }).then((clientList) => {
+      // 이미 열린 클라이언트가 있으면 그 클라이언트로 포커스 이동
+      const client = clientList.find((client) => client.url === url);
+      if (client) {
+        return client.focus();
+      } else {
+        // 없으면 새 탭을 엶
+        return clients.openWindow(url);
+      }
+    })
+  );
+});
+
 // messaging.onBackgroundMessage(messaging, (payload) => {
 //   console.log('[firebase-messaging-sw.js] Received background message ', payload);
 //   // Customize notification here
