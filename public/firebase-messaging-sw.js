@@ -17,7 +17,7 @@ self.addEventListener('push', function(event) {
   console.log('message',message);
   const title = message.notification.title;
   const body = message.notification.body;
-  const icon = message.data.icon;
+  // const icon = message.data.icon;
 
   const currentOrigin = self.location.origin;
   // const clickAction = currentOrigin === 'https://runal.netlify.app'
@@ -32,7 +32,7 @@ self.addEventListener('push', function(event) {
       click_action: clickAction,
     },
     // 배지, 아이콘?
-    
+
     // icon: icon, 
     icon: '/icons/favicon-32x32.png', 
     badge: '/icons/favicon-32x32.png', 
