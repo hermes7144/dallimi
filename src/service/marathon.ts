@@ -6,7 +6,9 @@ export async function getMarathons() {
 
   return client
     .fetch(
-      `*[_type == "marathon"]`
+      `*[_type == "marathon"]`,
+      {},
+      { cache: 'no-cache' } // 최신 데이터 가져오기
     )
     .then(mapPosts);
 };
