@@ -15,8 +15,8 @@ const messaging = firebase.messaging();
 self.addEventListener('push', function(event) {
   const message = event.data.json();  // FCM 메시지
   console.log('message',message);
-  const title = message.data.title;
-  const body = message.data.body;
+  const title = message.notification.title;
+  const body = message.notification.body;
   const icon = message.data.icon;
 
   const currentOrigin = self.location.origin;
