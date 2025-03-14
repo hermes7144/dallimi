@@ -19,7 +19,7 @@ if (!admin.apps.length) {
 export async function POST(req: NextRequest) {
   console.log("🔍 Webhook received");
 
-  // mutate('/api/marathons');
+  mutate('/api/marathons');
 
   try {
     const { name, region, events} = await req.json();    
