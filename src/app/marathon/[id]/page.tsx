@@ -51,7 +51,7 @@ export default async function MarathonDetailPage({ params: { id } }: Params) {
       <div className="mt-4">
         <h2 className="text-lg font-semibold">참가 종목</h2>
         <ul className="list-disc pl-4">
-          {marathon.events.map((event, index) => (
+          {marathon.events.map((event, index): {event: string, index: number} => (
             <li key={index}>{event}</li>
           ))}
         </ul>
