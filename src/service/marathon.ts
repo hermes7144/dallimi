@@ -6,7 +6,11 @@ export async function getMarathons() {
 
   return client
     .fetch(
-      `*[_type == "marathon"]`
+      `*[_type == "marathon"]{
+      ...,
+      "id":_id,
+      "participants": participants[]->_id,
+      }`
     )
     .then(mapPosts);
 };
@@ -19,6 +23,16 @@ function mapPosts(marathons: Marathon[]) {
   }));
 }
 
+export async function getMarathon(id: string) {
+  return client
+    .fetch(
+      `*[_type == "marathon" && _id == "${id}"][0]`
+    )
+    .then((post) => ({ ...post, image: urlFor(post.image) }));
+}
+
+
+
 async function deleteAllMarathons() {
   try {
     const marathons = await client.fetch('*[_type == "marathon"]{_id}');
@@ -30,7 +44,7 @@ async function deleteAllMarathons() {
 
     let transaction = client.transaction();
     marathons.forEach((doc: Marathon) => {
-      transaction = transaction.delete(doc._id);
+      transaction = transaction.delete(doc.id);
     });
 
     await transaction.commit();

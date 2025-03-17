@@ -1,6 +1,8 @@
+import { withSessionUser } from '@/app/util/session';
+import { notifyMarathon, unnotifyMarathon } from '@/service/notify';
 import { getActiveUserTokens } from '@/service/user';
 import admin from "firebase-admin";
-import { NextRequest } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { mutate } from 'swr';
 
 
@@ -49,4 +51,22 @@ export async function POST(req: NextRequest) {
     return new Response(
       JSON.stringify(error) , {status: 500})
   }
+}
+
+
+
+export async function PUT(req: NextRequest) {
+  return withSessionUser(async (user) => {
+    const { id, notify } = await req.json();    
+  
+    if (!id || notify === undefined) {
+      return new Response('Bad Request', { status: 400 });
+    }
+  
+    const request = notify ? notifyMarathon : unnotifyMarathon;
+  
+    return request(id, user.id)
+    .then(res => NextResponse.json(res))
+    .catch(error => new Response(JSON.stringify(error) , {status: 500}))
+  })
 }

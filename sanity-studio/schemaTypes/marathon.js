@@ -70,9 +70,9 @@ export default {
       type: 'boolean'
     },
     { 
+      title: "participants", 
       name: "participants", 
       type: "array", 
-      title: "참여자", 
       of: [
         {
           type: 'reference',
