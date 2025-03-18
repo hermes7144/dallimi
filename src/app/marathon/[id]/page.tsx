@@ -15,15 +15,7 @@ interface Params {
 export default async function MarathonDetailPage({ params: { id } }: Params) {
   const marathon = await getMarathon(id);
 
-
-  // const res = await fetch(`http://localhost:3000/api/marathons/${id}`);
-
-  // console.log('res', res)
-  // if (!res.ok) {
-  //   throw new Error('마라톤 데이터를 가져오는 데 실패했습니다');
-  // }
-  // const marathon: Marathon = await res.json();
-
+  console.log('marathon', marathon)
   return (
     <div className="max-w-3xl mx-auto p-4">
       {/* 🔥 배경 이미지 */}
