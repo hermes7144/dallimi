@@ -15,12 +15,11 @@ export default function useMarathons() {
   const setNotify = useCallback(
     (marathon: Marathon, id: string, notify: boolean) => {
       
-      console.log(marathon);
+      const participants = marathon?.participants || [];
       
-
       const newParticipant = {
         ...marathon,
-        participants: notify ? [...marathon?.participants ?? [], id] : marathon.participants.filter((item) => item !== id),
+        participants: notify ? [...participants, id] : participants.filter((item) => item !== id),
       };
       const newParticipants = marathons?.map((p) => (p.id === marathon.id ? newParticipant : p));
 

@@ -75,17 +75,3 @@ export const sendFCMTokenToServer = async (id: string, token: string, deviceType
     console.error("❌ Error sending FCM Token:", error);
   }
 };
-
-// ✅ 포그라운드 메시지 수신 설정
-export const setupOnMessageListener = () => {
-  const messaging = getFirebaseMessaging();
-  if (!messaging) return;
-
-  onMessage(messaging, (payload) => {
-    console.log("📩 포그라운드 메시지 수신:", payload);
-    new Notification(payload.notification?.title + '포그라운드' || "알림", {
-      body: payload.notification?.body || "",
-      icon: payload.notification?.image || "",
-    });
-  });
-};

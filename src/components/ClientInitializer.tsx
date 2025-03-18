@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { requestNotificationPermission, sendFCMTokenToServer, setupOnMessageListener } from "@/service/notification";
+import { requestNotificationPermission, sendFCMTokenToServer } from "@/service/notification";
 import { useSession } from "next-auth/react";
 
 const ClientInitializer = () => {
@@ -25,11 +25,10 @@ const ClientInitializer = () => {
           sendFCMTokenToServer(user.id, token, deviceType);
         }
       });
-      // setupOnMessageListener();
     }
   }, [user]);
 
-  return null; // UI 요소를 렌더링하지 않음
+  return null;
 };
 
 export default ClientInitializer;

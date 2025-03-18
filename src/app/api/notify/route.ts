@@ -3,7 +3,6 @@ import { notifyMarathon, unnotifyMarathon } from '@/service/notify';
 import { getActiveUserTokens } from '@/service/user';
 import admin from "firebase-admin";
 import { NextRequest, NextResponse } from 'next/server';
-import { mutate } from 'swr';
 
 
 // Firebase Admin 초기화

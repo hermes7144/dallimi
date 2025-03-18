@@ -50,8 +50,8 @@ function MarathonListCard({ marathon, priority }: Props) {
             e.stopPropagation();
             handleNotify(toggled);
           }}
-          onIcon={<LuBellRing className='w-7 h-7' />}
-          offIcon={<LuBellPlus  className='w-7 h-7' />}
+          onIcon={<LuBellRing className='w-6 h-6' />}
+          offIcon={<LuBellPlus  className='w-6 h-6' />}
         />
       </div>
       <div className='flex items-center text-gray-600'>

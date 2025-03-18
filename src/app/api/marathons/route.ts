@@ -1,5 +1,3 @@
-import { getServerSession } from 'next-auth';
-import { authOptions } from '../auth/[...nextauth]/route';
 import { getMarathons } from '@/service/marathon';
 import { NextResponse } from 'next/server';
 import { withSessionUser } from '@/app/util/session';
