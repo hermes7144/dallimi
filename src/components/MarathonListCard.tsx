@@ -24,13 +24,8 @@ type Props = {
 function MarathonListCard({ marathon, priority }: Props) {
   const { id, name, region, location, date, price, image, events, url, participants } = marathon;
 
-  console.log(marathon)
-
   const { user } = useMe();
   const { setNotify } = useMarathons();
-
-  
-
   const notified = user ? participants?.includes(user.id) : false;
 
   const handleNotify = (notify: boolean) => {
@@ -42,12 +37,11 @@ function MarathonListCard({ marathon, priority }: Props) {
 
 
 <Link href={`/marathon/${id}`} className='block border border-gray-300 bg-white rounded-lg shadow-lg hover:shadow-xl transition duration-300 cursor-pointer relative'>
-  <img src={image} alt={`${name} 이미지`} className="hidden sm:block w-full aspect-[16/9] object-fill rounded-t-lg" />
+  <img src={image} alt={`${name} 이미지`} className="block w-full aspect-[16/9] object-fill rounded-t-lg" />
   <MarathonBadge marathon={marathon} />
   <div className='w-full flex flex-col p-2 sm:p-4 gap-1 text-sm sm:text-lg relative'>
       <div className='flex justify-between items-center'>
         <h2 className='w-60 font-semibold text-gray-800 truncate'>{name}</h2>
-        {/* 🚀 버튼을 h2 옆에 배치 */}
         <ToggleButton
           title={notified ? 'notify' : 'unnotify'}
           toggled={notified}
@@ -56,8 +50,8 @@ function MarathonListCard({ marathon, priority }: Props) {
             e.stopPropagation();
             handleNotify(toggled);
           }}
-          onIcon={<LuBellRing />}
-          offIcon={<LuBellPlus />}
+          onIcon={<LuBellRing className='w-7 h-7' />}
+          offIcon={<LuBellPlus  className='w-7 h-7' />}
         />
       </div>
       <div className='flex items-center text-gray-600'>
@@ -75,17 +69,6 @@ function MarathonListCard({ marathon, priority }: Props) {
         {price.toLocaleString()}원 ~
       </div>
       <EventList events={events} />
-      <ToggleButton
-  title={notified ? 'notify' : 'unnotify'}
-  toggled={notified}
-  onToggle={(toggled, e) => {
-    e.preventDefault(); // 🚀 링크 이동 막기
-    e.stopPropagation(); // 🚀 이벤트 전파 막기
-    handleNotify(toggled);
-  }}
-  onIcon={<LuBellRing />}
-  offIcon={<LuBellPlus />}
-/>
   </div>
 </Link>
     </div>
