@@ -9,7 +9,7 @@ type Props = {
   color?: string
 }
 
- export default function GridSpninner({color ='red'} :Props) {
+export default function GridSpninner({color ='red'} :Props) {
   
   return <GridLoader color={color}/>
 }
