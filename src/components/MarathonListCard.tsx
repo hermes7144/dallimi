@@ -39,13 +39,7 @@ function MarathonListCard({ marathon, priority }: Props) {
 
 <Link href={`/marathon/${id}`} className='block border border-gray-300 bg-white rounded-lg shadow-lg hover:shadow-xl transition duration-300 cursor-pointer relative'>
   {/* <img src={image} alt={`${name} 이미지`} className="block w-full aspect-[16/9] object-fill rounded-t-lg" /> */}
-  <Image
-  src={image ?? ''} 
-  alt={`${name} 이미지`} 
-  width={640} // 원하는 너비 지정
-  height={360} // 원하는 높이 지정
-  priority
-  className="block w-full aspect-[16/9] object-cover rounded-t-lg" 
+  <Image src={image ?? ''} alt={`${name} 이미지`}  priority className="hidden sm:block w-full aspect-[16/9] object-cover rounded-t-lg" 
 />
   <MarathonBadge marathon={marathon} />
   <div className='w-full flex flex-col p-2 sm:p-4 gap-1 text-sm sm:text-lg relative'>
