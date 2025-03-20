@@ -44,6 +44,7 @@ function MarathonListCard({ marathon, priority }: Props) {
   alt={`${name} 이미지`} 
   width={640} // 원하는 너비 지정
   height={360} // 원하는 높이 지정
+  priority
   className="block w-full aspect-[16/9] object-cover rounded-t-lg" 
 />
   <MarathonBadge marathon={marathon} />
