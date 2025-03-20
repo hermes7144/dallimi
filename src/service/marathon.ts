@@ -2,8 +2,7 @@ import { Marathon } from '@/model/marathon';
 import { client, urlFor } from './sanity';
 
 export async function getMarathons() {
-
-
+  
   return client
     .fetch(
       `*[_type == "marathon"]{
