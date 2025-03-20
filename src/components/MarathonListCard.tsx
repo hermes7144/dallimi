@@ -42,7 +42,9 @@ function MarathonListCard({ marathon, priority }: Props) {
   <Image
   src={image ?? ''} 
   alt={`${name} 이미지`} 
-  className="hidden sm:block w-full aspect-[16/9] object-cover rounded-t-lg" 
+  width={300} // 원하는 너비 지정
+  height={200} // 원하는 높이 지정
+  className="block w-full aspect-[16/9] object-cover rounded-t-lg" 
 />
   <MarathonBadge marathon={marathon} />
   <div className='w-full flex flex-col p-2 sm:p-4 gap-1 text-sm sm:text-lg relative'>
