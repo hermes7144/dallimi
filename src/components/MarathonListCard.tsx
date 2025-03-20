@@ -52,8 +52,8 @@ function MarathonListCard({ marathon, priority }: Props) {
           title={notified ? 'notify' : 'unnotify'}
           toggled={notified}
           onToggle={(toggled, e) => {
-            // e.preventDefault();
-            // e.stopPropagation();
+            e.preventDefault();
+            e.stopPropagation();
             handleNotify(toggled);
           }}
           onIcon={<LuBellRing className='w-6 h-6' />}
