@@ -10,6 +10,7 @@ import useMe from '@/hooks/useMe';
 import useMarathons from '@/hooks/useMarathons';
 import ToggleButton from './ui/ToggleButton';
 import { LuBellPlus, LuBellRing } from 'react-icons/lu';
+import Image from 'next/image';
 
 
 const MemoizedFaRegCalendarAlt = memo(FaRegCalendarAlt);
@@ -37,7 +38,14 @@ function MarathonListCard({ marathon, priority }: Props) {
 
 
 <Link href={`/marathon/${id}`} className='block border border-gray-300 bg-white rounded-lg shadow-lg hover:shadow-xl transition duration-300 cursor-pointer relative'>
-  <img src={image} alt={`${name} 이미지`} className="block w-full aspect-[16/9] object-fill rounded-t-lg" />
+  {/* <img src={image} alt={`${name} 이미지`} className="block w-full aspect-[16/9] object-fill rounded-t-lg" /> */}
+  <Image
+  src={image ?? ''} 
+  alt={`${name} 이미지`} 
+  width={640} // 원하는 너비 지정
+  height={360} // 원하는 높이 지정
+  className="block w-full aspect-[16/9] object-cover rounded-t-lg" 
+/>
   <MarathonBadge marathon={marathon} />
   <div className='w-full flex flex-col p-2 sm:p-4 gap-1 text-sm sm:text-lg relative'>
       <div className='flex justify-between items-center'>
