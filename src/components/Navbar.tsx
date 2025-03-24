@@ -8,7 +8,6 @@ import MarathonIcon from './ui/icons/MarathonIcon';
 import MarathonFillIcon from './ui/icons/MarathonFillIcon';
 import ColorButton from './ui/ColorButton';
 import { useSession, signIn, signOut } from 'next-auth/react';
-import Avatar from './Avatar';
 import SearchIcon from './ui/icons/SearchIcon';
 import SearchFillIcon from './ui/icons/SearchFillIcon';
 import UserMenu from './UserMenu';

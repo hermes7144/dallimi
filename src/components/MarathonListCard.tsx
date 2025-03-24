@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import dayjs from 'dayjs';
 import { MarathonBadge } from './MarathonBadge';
-import { FaRegCalendarAlt, FaWonSign } from 'react-icons/fa';
+import { FaExternalLinkAlt, FaRegCalendarAlt, FaWonSign } from 'react-icons/fa';
 import { IoLocationSharp } from 'react-icons/io5';
 import { Marathon } from '@/model/marathon';
 import Link from 'next/link';
@@ -48,7 +48,7 @@ function MarathonListCard({ marathon, priority }: Props) {
 />
   <MarathonBadge marathon={marathon} />
   <div className='w-full flex flex-col p-2 sm:p-4 gap-1 text-sm sm:text-lg relative'>
-      <div className='flex justify-between items-center'>
+      <div className='flex justify-between items-center gap-4'>
         <h2 className='w-60 font-semibold text-gray-800 truncate'>{name}</h2>
         <ToggleButton
           title={notified ? 'notify' : 'unnotify'}
@@ -61,6 +61,14 @@ function MarathonListCard({ marathon, priority }: Props) {
           onIcon={<LuBellRing className='w-6 h-6' />}
           offIcon={<LuBellPlus  className='w-6 h-6' />}
         />
+      <a 
+        href={marathon.url} 
+        target='_blank' 
+        className='text-gray-500 hover:text-gray-700 transition duration-200'
+        onClick={(e) => e.stopPropagation()} // 이벤트 전파 방지
+      >
+        <FaExternalLinkAlt className='w-5 h-5' />
+      </a>
       </div>
       <div className='flex items-center text-gray-600'>
         <MemoizedFaRegCalendarAlt className='w-5 h-5 flex-shrink-0  mr-1' />
