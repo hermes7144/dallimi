@@ -1,7 +1,11 @@
 import { memo } from 'react';
 import dayjs from 'dayjs';
+import 'dayjs/locale/ko';
+
+dayjs.locale('ko');
+
 import { MarathonBadge } from './MarathonBadge';
-import { FaExternalLinkAlt, FaRegCalendarAlt, FaWonSign } from 'react-icons/fa';
+import { FaRegCalendarAlt, FaWonSign } from 'react-icons/fa';
 import { IoLocationSharp } from 'react-icons/io5';
 import { Marathon } from '@/model/marathon';
 import Link from 'next/link';
@@ -38,13 +42,12 @@ function MarathonListCard({ marathon, priority }: Props) {
 
 
 <Link href={`/marathon/${id}`} className='block border border-gray-300 bg-white rounded-lg shadow-lg hover:shadow-xl transition duration-300 cursor-pointer relative'>
-  {/* <img src={image} alt={`${name} 이미지`} className="block w-full aspect-[16/9] object-fill rounded-t-lg" /> */}
   <Image
   src={image ?? ''} 
   alt={`${name} 이미지`} 
   width={300} // 원하는 너비 지정
   height={200} // 원하는 높이 지정
-  className="block w-full aspect-[16/9] object-cover rounded-t-lg" 
+  className="hidden sm:block w-full aspect-[16/9] object-cover rounded-t-lg" 
 />
   <MarathonBadge marathon={marathon} />
   <div className='w-full flex flex-col p-2 sm:p-4 gap-1 text-sm sm:text-lg relative'>
@@ -61,14 +64,6 @@ function MarathonListCard({ marathon, priority }: Props) {
           onIcon={<LuBellRing className='w-6 h-6' />}
           offIcon={<LuBellPlus  className='w-6 h-6' />}
         />
-      <a 
-        href={marathon.url} 
-        target='_blank' 
-        className='text-gray-500 hover:text-gray-700 transition duration-200'
-        onClick={(e) => e.stopPropagation()} // 이벤트 전파 방지
-      >
-        <FaExternalLinkAlt className='w-5 h-5' />
-      </a>
       </div>
       <div className='flex items-center text-gray-600'>
         <MemoizedFaRegCalendarAlt className='w-5 h-5 flex-shrink-0  mr-1' />

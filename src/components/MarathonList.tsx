@@ -15,7 +15,7 @@ export default function MarathonList() {
         </div>
       )}
       {marathons && (
-        <ul className='grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 p-2'>
+        <ul className='grid sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4 p-2'>
           {marathons.map((marathon, index) => (
             <li key={marathon.id} className='m-2'>
               <MarathonListCard marathon={marathon} priority={index < 2} />
