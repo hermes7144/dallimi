@@ -5,17 +5,17 @@ import { FaRegCalendarAlt, FaWonSign } from 'react-icons/fa';
 import Image from 'next/image';
 import Link from 'next/link';
 import { getMarathon } from '@/service/marathon';
+import { Metadata } from 'next';
 
-interface Params {
+interface Props {
   params: {
     id: string;
   };
 }
 
-export default async function MarathonDetailPage({ params: { id } }: Params) {
+export default async function MarathonDetailPage({ params: { id } }: Props) {
   const marathon = await getMarathon(id);
 
-  console.log('marathon', marathon)
   return (
     <div className="max-w-3xl mx-auto p-4">
       {/* 🔥 배경 이미지 */}
@@ -57,4 +57,14 @@ export default async function MarathonDetailPage({ params: { id } }: Params) {
       </div>
     </div>
   );
+}
+
+
+export async function generateMetadata({ params: { id }}: Props): Promise<Metadata> {
+  const marathon = await getMarathon(id);
+
+  return {
+    title: `${marathon?.name} • 러닝알리미`,
+    description: `${marathon?.name} 정보`,
+  };
 }
