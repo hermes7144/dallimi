@@ -15,6 +15,9 @@ export const metadata: Metadata = {
   icons: {
     icon: "/favicon.ico"
   },
+  openGraph: {
+    siteName: "러닝알리미", // 구글 사이트 이름
+  }
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
