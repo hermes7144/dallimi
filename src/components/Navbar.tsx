@@ -25,8 +25,8 @@ export default function Navbar() {
 
   return <div className='flex justify-between items-center px-6'>
     <Link href='/'>
-      {/* <h1 className='text-3xl font-bold'>RA</h1> */}
-      <img src="/logo.png" alt="" />
+      <h1 className='text-3xl font-bold'>RUNAL</h1>
+      {/* <img src="/logo.png" alt="" /> */}
     </Link>
     <nav>
       <ul className='flex gap-4 items-center p-4'>
