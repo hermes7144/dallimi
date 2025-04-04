@@ -25,8 +25,8 @@ export const MarathonBadge = ({ marathon, position = 'static' }: { marathon: Mar
     <div
       className={clsx(
         'm-1 top-2 left-2',
-        position === 'absolute' && 'absolute hidden sm:block',
-        position === 'static' && 'block sm:hidden'
+        position === 'absolute' && 'absolute hidden lg:block',
+        position === 'static' && 'block lg:hidden'
       )}
     >
       <span

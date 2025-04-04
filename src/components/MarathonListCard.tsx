@@ -47,14 +47,14 @@ function MarathonListCard({ marathon, priority }: Props) {
   alt={`${name} 이미지`} 
   width={300}
   height={200}
-  className="hidden sm:block w-full aspect-[16/9] object-cover rounded-t-lg" 
+  className="hidden lg:block w-full aspect-[16/9] object-cover rounded-t-lg" 
 />
   <MarathonBadge position={'absolute'} marathon={marathon} />
   <div className='w-full flex flex-col p-2 sm:p-4 gap-1 text-sm sm:text-lg relative'>
       <div className='flex justify-between items-center gap-4'>
-        <div>
-        <MarathonBadge position={'absolute'} marathon={marathon} />
-        <h2 className='w-60 font-semibold text-gray-800 truncate'>{name}</h2>
+        <div className='flex items-center'>
+          <MarathonBadge marathon={marathon} />
+          <h2 className='w-48 font-semibold text-gray-800 truncate'>{name}</h2>
         </div>
         <ToggleButton
           title={notified ? 'notify' : 'unnotify'}
