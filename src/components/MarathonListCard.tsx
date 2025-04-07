@@ -16,7 +16,6 @@ import ToggleButton from './ui/ToggleButton';
 import { LuBellPlus, LuBellRing } from 'react-icons/lu';
 import Image from 'next/image';
 
-
 const MemoizedFaRegCalendarAlt = memo(FaRegCalendarAlt);
 const MemoizedIoLocationSharp = memo(IoLocationSharp);
 const MemoizedFaWonSign = memo(FaWonSign);
@@ -37,54 +36,61 @@ function MarathonListCard({ marathon, priority }: Props) {
     user && setNotify(marathon, user.id, notify);
   };
 
+  
+  const dayNumber = dayjs(date).day(); // 0: 일, 6: 토
+  const dateText = dayjs(date).format('YYYY년 M월 D일'); // 0: 일, 6: 토
+  const dayText = dayjs(date).format('ddd');
+
+  let textColor = '';
+  if (dayNumber === 0) {
+    textColor = 'text-red-500'; // 일요일
+  } else if (dayNumber === 6) {
+    textColor = 'text-blue-500'; // 토요일
+  }
+
   return (
-<div>
-
-
-<Link href={`/marathon/${id}`} className='block border border-gray-300 bg-white rounded-lg shadow-lg hover:shadow-xl transition duration-300 cursor-pointer relative'>
-  <Image
-  src={image ?? ''} 
-  alt={`${name} 이미지`} 
-  width={300}
-  height={200}
-  className="hidden lg:block w-full aspect-[16/9] object-cover rounded-t-lg" 
-/>
-  <MarathonBadge position={'absolute'} marathon={marathon} />
-  <div className='w-full flex flex-col p-2 sm:p-4 gap-1 text-sm sm:text-lg relative'>
-      <div className='flex justify-between items-center gap-4'>
-        <div className='flex items-center'>
-          <MarathonBadge marathon={marathon} />
-          <h2 className='w-48 font-semibold text-gray-800 truncate'>{name}</h2>
+    <div>
+      <Link href={`/marathon/${id}`} className='block border border-gray-300 bg-white rounded-lg shadow-lg hover:shadow-xl transition duration-300 cursor-pointer relative'>
+        <Image src={image ?? ''} alt={`${name} 이미지`} width={300} height={200} className='hidden lg:block w-full aspect-[16/9] border-b border-b-gray-100 rounded-t-lg' />
+        <MarathonBadge position={'absolute'} marathon={marathon} />
+        <div className='w-full flex flex-col p-2 sm:p-4 gap-1 text-sm sm:text-lg relative'>
+          <div className='flex justify-between items-center gap-4'>
+            <div className='flex items-center'>
+              <MarathonBadge marathon={marathon} />
+              <h2 className='w-64 font-semibold text-gray-800 truncate'>{name}</h2>
+            </div>
+          </div>
+          <div className='flex justify-between'>
+            <div className='flex items-center text-gray-600'>
+              <MemoizedFaRegCalendarAlt className='w-5 h-5 flex-shrink-0  mr-1' />
+              <span>{dateText}</span>
+              <span className={textColor + ' ml-1'}>({dayText})</span>
+            </div>
+            <ToggleButton
+              title={notified ? 'notify' : 'unnotify'}
+              toggled={notified}
+              onToggle={(toggled, e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                handleNotify(toggled);
+              }}
+              onIcon={<LuBellRing className='w-6 h-6' />}
+              offIcon={<LuBellPlus className='w-6 h-6' />}
+            />
+          </div>
+          <div className='flex items-center text-gray-600'>
+            <MemoizedIoLocationSharp className='w-5 h-5 flex-shrink-0 mr-1' />
+            <span className='truncate w-44 sm:w-full'>
+              {region}, {location}
+            </span>
+          </div>
+          <div className='flex items-center text-gray-600'>
+            <MemoizedFaWonSign className='w-5 h-5 flex-shrink-0 mr-1' />
+            {price.toLocaleString()}원 ~
+          </div>
+          <EventList events={events} />
         </div>
-        <ToggleButton
-          title={notified ? 'notify' : 'unnotify'}
-          toggled={notified}
-          onToggle={(toggled, e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            handleNotify(toggled);
-          }}
-          onIcon={<LuBellRing className='w-6 h-6' />}
-          offIcon={<LuBellPlus  className='w-6 h-6' />}
-        />
-      </div>
-      <div className='flex items-center text-gray-600'>
-        <MemoizedFaRegCalendarAlt className='w-5 h-5 flex-shrink-0  mr-1' />
-        <span>{dayjs(date).format('YYYY년 M월 D일 dddd')}</span>
-      </div>
-      <div className='flex items-center text-gray-600'>
-        <MemoizedIoLocationSharp className='w-5 h-5 flex-shrink-0 mr-1' />
-        <span className='truncate w-44 sm:w-full'>
-          {region}, {location}
-        </span>
-      </div>
-      <div className='flex items-center text-gray-600'>
-        <MemoizedFaWonSign className='w-5 h-5 flex-shrink-0 mr-1' />
-        {price.toLocaleString()}원 ~
-      </div>
-      <EventList events={events} />
-  </div>
-</Link>
+      </Link>
     </div>
   );
 }

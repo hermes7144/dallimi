@@ -37,7 +37,7 @@ export default async function MarathonDetailPage({ params: { id } }: Props) {
         <div className='flex items-center gap-2'>
           <FaRegCalendarAlt />
           <span>
-            접수 기간: {dayjs(marathon.startDate).format('YYYY년 M월 D일')} ~ {dayjs(marathon.endDate).format('YYYY년 M월 D일')}
+            접수 기간: {dayjs(marathon.startDate).format('YYYY년 M월 D일')} ~ {marathon.endDate && dayjs(marathon.endDate).format('YYYY년 M월 D일')}
           </span>
         </div>
         <div className='flex items-center gap-2 mt-1'>
