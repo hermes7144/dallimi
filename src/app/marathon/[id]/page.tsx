@@ -6,6 +6,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { getMarathon } from '@/service/marathon';
 import { Metadata } from 'next';
+import EventList from '@/components/EventList';
 
 interface Props {
   params: {
@@ -19,7 +20,7 @@ export default async function MarathonDetailPage({ params: { id } }: Props) {
   return (
     <div className='max-w-3xl mx-auto p-4'>
       <div className='relative w-full h-64 sm:h-80'>
-        <Image src={marathon.image} alt={marathon.name} layout='fill' objectFit='cover' className='rounded-lg' />
+        <Image src={marathon.image} alt={marathon.name} layout='fill' className='rounded-lg' />
       </div>
       <div className='flex justify-between items-center'>
         <h1 className='text-2xl font-bold mt-4'>{marathon.name}</h1>
@@ -27,12 +28,9 @@ export default async function MarathonDetailPage({ params: { id } }: Props) {
             <FaExternalLinkAlt size={20} />
           </a>
       </div>
-
       <p className='text-gray-600'>
         {marathon.region}, {marathon.location}
       </p>
-
-      {/* 📅 접수 및 대회 일정 */}
       <div className='mt-2 text-gray-700'>
         <div className='flex items-center gap-2'>
           <FaRegCalendarAlt />
@@ -46,20 +44,12 @@ export default async function MarathonDetailPage({ params: { id } }: Props) {
         </div>
       </div>
 
-      {/* 💰 가격 정보 */}
       <div className='mt-2 flex items-center gap-2 text-gray-700'>
         <FaWonSign />
         <span>{marathon.price?.toLocaleString()}원 ~</span>
       </div>
-
-      {/* 🏁 이벤트 정보 */}
       <div className='mt-4'>
-        <h2 className='text-lg font-semibold'>참가 종목</h2>
-        <ul className='list-disc pl-4'>
-          {marathon.events.map((event: string, index: number) => (
-            <li key={index}>{event}</li>
-          ))}
-        </ul>
+          <EventList events={marathon.events} />
       </div>
     </div>
   );

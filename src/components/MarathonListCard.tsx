@@ -57,7 +57,7 @@ function MarathonListCard({ marathon, priority }: Props) {
           <div className='flex justify-between items-center gap-4'>
             <div className='flex items-center'>
               <MarathonBadge marathon={marathon} />
-              <h2 className='w-64 font-semibold text-gray-800 truncate'>{name}</h2>
+              <h2 className='max-w-60 font-semibold text-gray-800 truncate'>{name}</h2>
             </div>
           </div>
           <div className='flex justify-between'>
