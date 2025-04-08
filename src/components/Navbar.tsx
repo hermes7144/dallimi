@@ -23,13 +23,13 @@ export default function Navbar() {
   const { data: session } = useSession();
   const user = session?.user;
 
-  return <div className='flex justify-between items-center px-6'>
+  return <div className='flex justify-between items-center px-2 lg:px-6'>
     <Link href='/'>
       <h1 className='text-3xl font-bold'>RUNAL</h1>
       {/* <img src="/logo.png" alt="" /> */}
     </Link>
     <nav>
-      <ul className='flex gap-4 items-center p-4'>
+      <ul className='flex gap-4 items-center p-2'>
         {menu.map(item => (
           <li key={item.href}>
           <Link href={item.href}>

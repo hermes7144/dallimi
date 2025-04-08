@@ -1,9 +1,10 @@
 import { Marathon } from '@/model/marathon';
 import dayjs from 'dayjs';
-import { IoLocationSharp } from 'react-icons/io5';
+import 'dayjs/locale/ko';
+
+dayjs.locale('ko');
 import { FaExternalLinkAlt, FaRegCalendarAlt, FaWonSign } from 'react-icons/fa';
 import Image from 'next/image';
-import Link from 'next/link';
 import { getMarathon } from '@/service/marathon';
 import { Metadata } from 'next';
 import EventList from '@/components/EventList';
@@ -16,6 +17,17 @@ interface Props {
 
 export default async function MarathonDetailPage({ params: { id } }: Props) {
   const marathon = await getMarathon(id);
+
+  const dayNumber = dayjs(marathon.date).day(); // 0: 일, 6: 토
+  const dateText = dayjs(marathon.date).format('YYYY년 M월 D일'); // 0: 일, 6: 토
+  const dayText = dayjs(marathon.date).format('ddd');
+
+  let textColor = '';
+  if (dayNumber === 0) {
+    textColor = 'text-red-500'; // 일요일
+  } else if (dayNumber === 6) {
+    textColor = 'text-blue-500'; // 토요일
+  }
 
   return (
     <div className='max-w-3xl mx-auto p-4'>
@@ -38,9 +50,10 @@ export default async function MarathonDetailPage({ params: { id } }: Props) {
             접수 기간: {dayjs(marathon.startDate).format('YYYY년 M월 D일')} ~ {marathon.endDate && dayjs(marathon.endDate).format('YYYY년 M월 D일')}
           </span>
         </div>
-        <div className='flex items-center gap-2 mt-1'>
-          <FaRegCalendarAlt />
-          <span>대회 일정: {dayjs(marathon.date).format('YYYY년 M월 D일')}</span>
+        <div className='flex items-center text-gray-600'>
+          <FaRegCalendarAlt className='w-5 h-5 flex-shrink-0  mr-1' />
+          <span>{dateText}</span>
+          <span className={textColor + ' ml-1'}>({dayText})</span>
         </div>
       </div>
 
