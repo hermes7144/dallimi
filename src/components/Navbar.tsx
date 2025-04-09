@@ -29,21 +29,29 @@ export default function Navbar() {
       {/* <img src="/logo.png" alt="" /> */}
     </Link>
     <nav>
-      <ul className='flex gap-4 items-center p-2'>
-        {menu.map(item => (
-          <li key={item.href}>
+  <ul className='flex gap-4 items-center p-2'>
+    <div className="hidden md:flex gap-4 items-center">
+      {menu.map(item => (
+        <li key={item.href}>
           <Link href={item.href}>
             {pathName === item.href ? item.clickedIcon : item.icon}
           </Link>
-        </li>))}
-        {user && 
-          <li>
-            <UserMenu />
-          </li>
-        }
-        {!user && <ColorButton text='Sign in' onClick={() => signIn()}/> }
-      </ul>
-    </nav>
+        </li>
+      ))}
+    </div>
+    {user && (
+        <li>
+          <UserMenu />
+        </li>
+      )}
+
+    {!user && (
+      <li>
+        <ColorButton text="Sign in" onClick={() => signIn()} />
+      </li>
+    )}
+  </ul>
+</nav>
   </div>
 }
 

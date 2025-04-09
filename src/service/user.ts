@@ -7,11 +7,10 @@ type OAuthUser = {
   username: string;
   image?: string | null;
 }
-export async function addUser( { id, username, email, name, image}:OAuthUser) {
+export async function addUser( { id, username, email, name, image}: OAuthUser) {
   return client.createIfNotExists({
     _id: id,
     _type: 'user',
-    id,
     username,
     email,
     name,
@@ -32,15 +31,15 @@ export async function getUser(id: string) {
 
 export async function setNotification(userId: string, notification: { isEnabled: boolean; regions: string[]; events: string[] }) {
   return client
-    .patch(userId) // 특정 사용자 문서 업데이트
-    .set({ notification }) // 기존 notification을 덮어씀
+    .patch(userId)
+    .set({ notification })
     .commit();
 }
 
 export async function setUserToken(userId: string, fcmToken: string) {
   return client
-    .patch(userId) // 특정 사용자 문서 업데이트
-    .set({ fcmToken }) // 기존 notification을 덮어씀
+    .patch(userId)
+    .set({ fcmToken })
     .commit();
 }
 
@@ -52,14 +51,12 @@ export async function getActiveUserTokens(region: string, events: string[]): Pro
       fcmTokens
     }`;
 
-    // 데이터 가져오기
     const users = await client.fetch(query);
 
-    // FCM 토큰을 추출하고 평탄화
     const tokens = users.flatMap((user: {fcmTokens: {mobile:string; pc: string}}) => [
       user.fcmTokens.mobile,
       user.fcmTokens.pc
-    ].filter(Boolean)); // undefined/null 값 제거
+    ].filter(Boolean));
 
     return tokens;
 

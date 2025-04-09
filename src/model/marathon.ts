@@ -15,4 +15,5 @@ export type Marathon = {
   likes: string[];
   comments: Comment[];
   participants: string[];
+  _createdAt:string;
 }

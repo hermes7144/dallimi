@@ -1,3 +1,5 @@
-export default function page() {
-  return <>Marathon</>
+import MarathonList from '@/components/MarathonList';
+
+export default function MarathonPage() {
+  return     <MarathonList />
 }
