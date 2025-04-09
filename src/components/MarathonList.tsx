@@ -11,7 +11,7 @@ type StatusType = 'open' | 'close' | null;
 const options: { label: string; value: StatusType }[] = [
   { label: '전체', value: null },
   { label: '모집중/예정', value: 'open' },
-  { label: '모집종료', value: 'close' },
+  { label: '모집종료/마감', value: 'close' },
 ];
 
 export default function MarathonList() {
@@ -70,13 +70,13 @@ export default function MarathonList() {
   
         <div className="flex flex-col">
           <div>
-            <h2 className="text-sm font-semibold text-gray-600 mb-2">모집 상태</h2>
-            <div className="flex flex-wrap gap-2">
+            <h2 className="text-sm font-semibold text-gray-600 my-2">모집 상태</h2>
+            <div className="flex flex-wrap gap-1 lg:gap-2">
               {options.map(({ label, value }) => (
                 <button
                   key={String(value ?? 'all')}
                   onClick={() => setStatus(value)}
-                  className={`px-1.5 lg:px-3 py-1 lg:py-1.5 rounded-full text-xs lg:text-sm font-medium border transition ${
+                  className={`px-1.5 lg:px-3 py-1 lg:py-1.5 rounded-lg text-xs lg:text-sm font-medium border transition ${
                     status === value
                       ? 'bg-blue-500 text-white border-blue-500'
                       : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-100'
@@ -90,15 +90,15 @@ export default function MarathonList() {
   
           {/* 거리 */}
           <div>
-            <h2 className="text-sm font-semibold text-gray-600 mb-2">거리</h2>
-            <div className="flex flex-wrap gap-2">
+            <h2 className="text-sm font-semibold text-gray-600 my-2">거리</h2>
+            <div className="flex flex-wrap gap-1 lg:gap-2">
               {['전체', 'Full', 'Half', '10km', '5km'].map((label) => {
                 const val = label === '전체' ? '' : label;
                 return (
                   <button
                     key={label}
                     onClick={() => setEvent(val)}
-                    className={`px-1.5 lg:px-3 py-1 lg:py-1.5 rounded-full text-xs lg:text-sm  font-medium border transition ${
+                    className={`px-1.5 lg:px-3 py-1 lg:py-1.5 rounded-lg text-xs lg:text-sm  font-medium border transition ${
                       event === val
                         ? 'bg-blue-500 text-white border-blue-500'
                         : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-100'
@@ -113,11 +113,11 @@ export default function MarathonList() {
   
           {/* 지역 */}
           <div>
-            <h2 className="text-sm font-semibold text-gray-600 mb-2">지역</h2>
-            <div className="flex flex-wrap gap-2">
+            <h2 className="text-sm font-semibold text-gray-600 my-2">지역</h2>
+            <div className="flex flex-wrap gap-1 lg:gap-2">
               <button
                 onClick={() => setRegionGroup('')}
-                className={`px-1.5 lg:px-3 py-1 lg:py-1.5 rounded-full text-xs lg:text-sm  border transition ${
+                className={`px-1.5 lg:px-3 py-1 lg:py-1.5 rounded-lg text-xs lg:text-sm  border transition ${
                   regionGroup === ''
                     ? 'bg-blue-500 text-white border-blue-500'
                     : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-100'
@@ -129,7 +129,7 @@ export default function MarathonList() {
                 <button
                   key={group}
                   onClick={() => setRegionGroup(group)}
-                  className={`px-1.5 lg:px-3 py-1 lg:py-1.5 rounded-full text-xs lg:text-sm  border transition ${
+                  className={`px-1.5 lg:px-3 py-1 lg:py-1.5 rounded-lg text-xs lg:text-sm  border transition ${
                     regionGroup === group
                       ? 'bg-blue-500 text-white border-blue-500'
                       : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-100'
@@ -143,7 +143,7 @@ export default function MarathonList() {
   
           {/* 월 선택 */}
           <div>
-            <h2 className="text-sm font-semibold text-gray-600 mb-2">월</h2>
+            <h2 className="text-sm font-semibold text-gray-600 my-2">월</h2>
             <select
               className="w-full bg-gray-100 text-sm rounded-md px-3 py-2 border border-gray-300"
               value={month}

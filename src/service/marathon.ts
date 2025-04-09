@@ -5,7 +5,7 @@ export async function getMarathons() {
   
   return client
     .fetch(
-      `*[_type == "marathon"]{
+      `*[_type == "marathon"] | order(date asc) {
       ...,
       "id":_id,
       "participants": participants[]->_id,
