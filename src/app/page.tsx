@@ -38,7 +38,7 @@ export default function HomePage() {
   // 화면 크기 감지 (처음 로딩 시)
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth < 768); // Tailwind 기준 md 미만
+      setIsMobile(window.innerWidth < 960);
     };
 
     handleResize(); // 최초 실행

@@ -7,7 +7,7 @@ export const MarathonBadge = ({ marathon, position = 'static' }: { marathon: Mar
 
   const getStatus = () => {
     if (dayjs(marathon.startDate).isAfter(today)) return '모집예정';
-    if (dayjs(marathon.endDate).isBefore(today)) return '모집종료';
+    if (dayjs(marathon.endDate).isBefore(today, 'day')) return '모집종료';
     if (marathon.isClosed) return '모집마감';
     return '모집중';
   };

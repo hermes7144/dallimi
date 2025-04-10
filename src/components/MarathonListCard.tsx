@@ -49,7 +49,6 @@ function MarathonListCard({ marathon, priority = false }: Props) {
   }
 
   return (
-    <li>
       <Link href={`/marathon/${id}`} className='block border border-gray-300 bg-white rounded-lg shadow-lg hover:shadow-xl transition duration-300 cursor-pointer relative'>
         <Image src={image ?? ''} alt={`${name} 이미지`} width={300} height={200} className='hidden lg:block w-full aspect-[16/9] border-b border-b-gray-100 rounded-t-lg' />
         <MarathonBadge position={'absolute'} marathon={marathon} />
@@ -91,7 +90,6 @@ function MarathonListCard({ marathon, priority = false }: Props) {
           <EventList events={events} />
         </div>
       </Link>
-    </li>
   );
 }
 

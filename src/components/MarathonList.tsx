@@ -170,7 +170,7 @@ export default function MarathonList() {
   
     {/* 목록 */}
     {filteredMarathons && (
-      <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 p-4">
+      <ul className="grid grid-cols-1 lg:grid-cols-4 gap-4 p-4">
         {filteredMarathons.map((marathon, index) => (
           <li key={marathon.id}>
             <MarathonListCard marathon={marathon} priority={index < 2} />
