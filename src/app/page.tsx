@@ -12,7 +12,7 @@ import SkeletonCard from '@/components/SkeletonCard';
 export default function HomePage() {
   const { isLoading, marathons } = useMarathons();
   const [isMobile, setIsMobile] = useState(false);
-  const skeletonList = useMemo(() => new Array(5).fill(null), []);  
+  const skeletonList = useMemo(() => new Array(5).fill(null), []);
 
   // 마라톤 데이터 처리
   const { notOpened, recent } = useMemo(() => {
