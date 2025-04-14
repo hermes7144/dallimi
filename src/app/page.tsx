@@ -41,7 +41,7 @@ export default function HomePage() {
       setIsMobile(window.innerWidth < 960);
     };
 
-    handleResize(); // 최초 실행
+    handleResize();
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
