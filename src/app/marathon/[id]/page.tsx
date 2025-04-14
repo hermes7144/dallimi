@@ -5,7 +5,7 @@ import 'dayjs/locale/ko';
 dayjs.locale('ko');
 import { FaExternalLinkAlt, FaRegCalendarAlt, FaWonSign } from 'react-icons/fa';
 import Image from 'next/image';
-import { getMarathon } from '@/service/marathon';
+import { getMarathon, getMarathons } from '@/service/marathon';
 import { Metadata } from 'next';
 import EventList from '@/components/EventList';
 
@@ -77,4 +77,12 @@ export async function generateMetadata({ params: { id } }: Props): Promise<Metad
       marathon.endDate
     ).format('YYYY년 M월 D일')}까지 가능합니다.`,
   };
+}
+
+
+export const dynamic = 'force-static';
+
+export async function generateStaticParams() {
+  const marathons = await getMarathons();
+  return marathons.map((marathon) => ({ id: marathon.id}));
 }
