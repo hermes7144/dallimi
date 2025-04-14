@@ -1,6 +1,6 @@
 export default function SkeletonCard() {
   return (
-    <div className="animate-pulse block border border-gray-300 bg-white rounded-lg shadow-lg relative min-w-[260px] sm:min-w-[280px] max-w-sm w-full">
+    <div className="animate-pulse border border-gray-300 bg-white rounded-lg shadow-lg">
       {/* PC에서 보이는 썸네일 */}
       <div className="hidden lg:block w-full aspect-[16/9] bg-gray-200 rounded-t-lg" />
 
