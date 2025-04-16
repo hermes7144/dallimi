@@ -1,4 +1,5 @@
 import { HomeUser } from '@/model/user';
+import { useSession } from 'next-auth/react';
 import { useCallback } from 'react';
 import useSWR from 'swr'
 
@@ -17,7 +18,13 @@ async function updateNotification(notification : Props) {
 
 
 export default function useMe() {
-  const { data: user, isLoading, error,  mutate }= useSWR<HomeUser>('/api/me');
+  const { data: session, status } = useSession();
+
+  const isLoggedIn = status === 'authenticated';
+
+  const { data: user, isLoading, error, mutate } = useSWR<HomeUser>(
+    isLoggedIn ? '/api/me' : null
+  );
 
   const setNotification = useCallback((notification: Props) => {
     return mutate(updateNotification(notification), { populateCache: false })

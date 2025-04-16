@@ -29,6 +29,7 @@ function MarathonListCard({ marathon, priority = false }: Props) {
   const { id, name, region, location, date, price, image, events, url, participants } = marathon;
 
   const { user } = useMe();
+
   const { setNotify } = useMarathons();
   const notified = user ? participants?.includes(user.id) : false;
 
@@ -36,9 +37,8 @@ function MarathonListCard({ marathon, priority = false }: Props) {
     user && setNotify(marathon, user.id, notify);
   };
 
-  
-  const dayNumber = dayjs(date).day(); // 0: 일, 6: 토
-  const dateText = dayjs(date).format('YYYY년 M월 D일'); // 0: 일, 6: 토
+  const dayNumber = dayjs(date).day();
+  const dateText = dayjs(date).format('YYYY년 M월 D일');
   const dayText = dayjs(date).format('ddd');
 
   let textColor = '';
