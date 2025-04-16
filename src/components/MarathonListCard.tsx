@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { memo, useState } from 'react';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
 
@@ -15,6 +15,9 @@ import useMarathons from '@/hooks/useMarathons';
 import ToggleButton from './ui/ToggleButton';
 import { LuBellPlus, LuBellRing } from 'react-icons/lu';
 import Image from 'next/image';
+import ModalPortal from './ui/ModalPortal';
+import Modal from './Modal';
+import { signIn } from 'next-auth/react';
 
 const MemoizedFaRegCalendarAlt = memo(FaRegCalendarAlt);
 const MemoizedIoLocationSharp = memo(IoLocationSharp);
@@ -27,6 +30,7 @@ type Props = {
 
 function MarathonListCard({ marathon, priority = false }: Props) {
   const { id, name, region, location, date, price, image, events, url, participants } = marathon;
+  const [openModal, setOpenModal] = useState(false);
 
   const { user } = useMe();
 
@@ -34,6 +38,11 @@ function MarathonListCard({ marathon, priority = false }: Props) {
   const notified = user ? participants?.includes(user.id) : false;
 
   const handleNotify = (notify: boolean) => {
+    if (!user) {
+      setOpenModal(true);
+      return;
+    }
+
     user && setNotify(marathon, user.id, notify);
   };
 
@@ -76,6 +85,27 @@ function MarathonListCard({ marathon, priority = false }: Props) {
               onIcon={<LuBellRing className='w-6 h-6' />}
               offIcon={<LuBellPlus className='w-6 h-6' />}
             />
+            {openModal && <ModalPortal>
+              <Modal open={openModal} onClose={() => setOpenModal(false)}>
+
+              <div className="p-6">
+          <h2 className="text-lg font-semibold">로그인이 필요해요</h2>
+          <p className="mt-2 text-sm text-gray-600">알림을 사용하려면 로그인이 필요합니다.</p>
+          <div className="mt-4 flex justify-end">
+            <button
+              className="bg-blue-500 text-white px-4 py-2 rounded"
+              onClick={() => {
+                setOpenModal(false);
+                signIn();
+              }}
+            >
+              로그인 하기
+            </button>
+          </div>
+        </div> 
+
+              </Modal>
+            </ModalPortal>}
           </div>
           <div className='flex items-center text-gray-600'>
             <MemoizedIoLocationSharp className='w-5 h-5 flex-shrink-0 mr-1' />
