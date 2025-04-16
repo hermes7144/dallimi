@@ -4,13 +4,13 @@ import { useCallback } from 'react';
 import useSWR from 'swr'
 
 type Props = {
-  isNotify: boolean;
+  isEnabled: boolean;
   regions: string[];
   events: string[];
 }
 
 async function updateNotification(notification : Props) {
-  return fetch('/api/notification', {
+  return fetch('/api/user/notification', {
     method: 'PUT',
     body: JSON.stringify({ notification })
   }).then(res => res.json())

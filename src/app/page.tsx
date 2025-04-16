@@ -8,6 +8,7 @@ import Link from 'next/link';
 import { Marathon } from '@/model/marathon';
 import CarouselCard from '@/components/CarouselCard';
 import SkeletonCard from '@/components/SkeletonCard';
+import NotificationSummary from '@/components/NotificationSummary';
 
 export default function HomePage() {
   const { isLoading, marathons } = useMarathons();
@@ -80,6 +81,7 @@ export default function HomePage() {
 
   return (
     <main className='p-4 space-y-12'>
+      <NotificationSummary />
       {renderSection('접수 예정 마라톤', notOpened)}
       {renderSection('신규 등록 마라톤', recent)}
 
