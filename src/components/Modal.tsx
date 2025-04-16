@@ -26,14 +26,14 @@ export default function Modal({ open, onClose, children }: Props) {
         onClose();
       }}
     >
-      <div
-        className="bg-white w-full h-full rounded-none sm:w-[400px] sm:h-auto sm:rounded-xl shadow-lg"
-        onClick={(e) => {
-          e.stopPropagation();  // ✅ 내부 클릭 이벤트 전파 방지
-        }}
-      >
-        {children}
-      </div>
+<div
+  className="bg-white w-full max-w-md mx-auto h-auto rounded-xl shadow-lg sm:rounded-xl sm:w-[400px]"
+  onClick={(e) => {
+    e.stopPropagation();
+  }}
+>
+  {children}
+</div>
     </div>
   );
 }
