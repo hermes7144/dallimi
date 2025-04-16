@@ -30,7 +30,7 @@ export default function DockMenu() {
               }`}
             >
               {icon}
-              <span className='dock-label'>{label}</span>
+              {/* <span className='dock-label'>{label}</span> */}
             </button>
           </Link>
         );
