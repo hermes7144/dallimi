@@ -28,12 +28,6 @@ const NotificationSettings = () => {
     }
   }, [user]);
 
-
-  if (!user) {
-    signIn();
-    return;
-  }
-
   const toggleSelection = (item: string, setSelectedItems: React.Dispatch<React.SetStateAction<string[]>>) => {
     setSelectedItems((prev) => (prev.includes(item) ? prev.filter((i) => i !== item) : [...prev, item]));
   };
