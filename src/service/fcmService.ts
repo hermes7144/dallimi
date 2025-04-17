@@ -2,7 +2,6 @@ import { client } from './sanity';
 
 export const saveFCMToken = async (id: string, token: string, deviceType: 'mobile' | 'pc') => {
   try {
-    // 유저 조회
     const user = await client.fetch(`*[_type == "user" && _id == $id][0]`, { id });
 
     if (!user) {
@@ -10,10 +9,14 @@ export const saveFCMToken = async (id: string, token: string, deviceType: 'mobil
       return { success: false, message: 'User not found' };
     }
 
-    // 기존 fcmTokens 객체 가져오기 (없으면 빈 객체)
     const existingTokens = user.fcmTokens || {};
+    const currentToken = existingTokens[deviceType];
 
-    // 해당 디바이스 타입의 토큰만 업데이트
+    // 같은 토큰이면 굳이 저장하지 않음
+    if (currentToken === token) {
+      return { success: true, message: 'Token already up-to-date' };
+    }
+
     await client
       .patch(user._id)
       .set({ fcmTokens: { ...existingTokens, [deviceType]: token } })

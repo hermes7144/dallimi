@@ -10,9 +10,12 @@ const ClientInitializer = () => {
 
   useEffect(() => {
     navigator.serviceWorker.getRegistrations().then((registrations) => {
-      registrations.forEach((registration) => {
-        registration.unregister();
-      });
+      const isAlreadyRegistered = registrations.some((reg) =>
+        reg.active?.scriptURL.includes("firebase-messaging-sw.js")
+      );
+      if (!isAlreadyRegistered) {
+        navigator.serviceWorker.register("/firebase-messaging-sw.js");
+      }
     });
 
     if (user?.id) {
