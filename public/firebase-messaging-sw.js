@@ -19,7 +19,7 @@ self.addEventListener('push', function(event) {
   const body = message.data.body;
   const url = message.data.url;
 
-  // const clickAction = 'https://dallimi.vercel.app/';
+  const clickAction = 'https://dallimi.vercel.app/';
 
   const options = {
     body,
