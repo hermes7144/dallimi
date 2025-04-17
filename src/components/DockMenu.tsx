@@ -18,14 +18,14 @@ export default function DockMenu() {
   const pathname = usePathname();
 
   return (
-    <div className='dock dock-lg md:hidden'>
+    <div className='dock dock-xs md:hidden'>
       {menu.map(({ href, label, icon }) => {
         const isActive = pathname === href;
 
         return (
           <Link key={href} href={href}>
             <button
-              className={`flex flex-col items-center justify-center text-xs ${
+              className={` ${
                 isActive ? 'text-blue-600 font-semibold' : 'text-gray-600 hover:text-black'
               }`}
             >
