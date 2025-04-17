@@ -3,17 +3,22 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import useMe from '@/hooks/useMe';
+import { signIn } from 'next-auth/react';
 
 
 export const predefinedRegions : string[]  = ['서울', '경기', '인천', '강원', '충북', '충남', '대전', '세종', '경북', '경남', '대구', '부산', '울산', '전북', '전남', '광주', '제주'];
 export const predefinedEvents  : string[] = ['Full', 'Half', '10km', '5km'];
 
 const NotificationSettings = () => {
+  
+
+
   const { user, setNotification } = useMe();
   const [isEnabled, setIsEnabled] = useState(user?.notification?.isEnabled || false);
   const [regions, setRegions] = useState<string[]>(user?.notification?.regions || []);
   const [events, setEvents] = useState<string[]>(user?.notification?.events || []);
   const router = useRouter();
+
 
   useEffect(() => {
     if (user?.notification) {
@@ -22,6 +27,12 @@ const NotificationSettings = () => {
       setEvents(user.notification.events || []);
     }
   }, [user]);
+
+
+  if (!user) {
+    signIn();
+    return;
+  }
 
   const toggleSelection = (item: string, setSelectedItems: React.Dispatch<React.SetStateAction<string[]>>) => {
     setSelectedItems((prev) => (prev.includes(item) ? prev.filter((i) => i !== item) : [...prev, item]));

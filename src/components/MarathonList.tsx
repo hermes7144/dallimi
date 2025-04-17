@@ -1,10 +1,10 @@
 'use client';
 
 import useMarathons from '@/hooks/useMarathons';
-import GridSpninner from './ui/GridSpninner';
 import MarathonListCard from './MarathonListCard';
 import { useState } from 'react';
 import dayjs from 'dayjs';
+import SkeletonCard from './SkeletonCard';
 
 type StatusType = 'open' | 'close' | null;
 
@@ -30,7 +30,7 @@ export default function MarathonList() {
     충청: ['충북', '충남', '대전', '세종'],
     전라: ['전북', '전남', '광주'],
     경상: ['경북', '경남', '대구', '부산', '울산'],
-    기타: ['강원', '제주']
+    기타: ['강원', '제주'],
   };
 
   const filteredMarathons = marathons?.filter((marathon) => {
@@ -53,10 +53,8 @@ export default function MarathonList() {
     // 나머지 필터 조건
     const matchesEvent = event === '' || marathon.events.includes(event);
     const matchesMonth = month === '' || String(marathonMonth) === month;
-    const selectedRegions = regionGroup
-    ? regionGroups[regionGroup as keyof typeof regionGroups]
-    : null;
-    
+    const selectedRegions = regionGroup ? regionGroups[regionGroup as keyof typeof regionGroups] : null;
+
     const matchesRegion = !selectedRegions || selectedRegions.some((r) => marathon.region.includes(r));
 
     return matchesStatus && matchesEvent && matchesMonth && matchesRegion;
@@ -64,121 +62,105 @@ export default function MarathonList() {
 
   return (
     <section>
-    <header className="mt-4 px-4 py-5 bg-white shadow-sm">
-      <div className="mx-auto space-y-4">
-        <h1 className="text-2xl font-bold text-gray-800">마라톤</h1>
-  
-        <div className="flex flex-col">
-          <div>
-            <h2 className="text-sm font-semibold text-gray-600 my-2">모집 상태</h2>
-            <div className="flex flex-wrap gap-1 lg:gap-2">
-              {options.map(({ label, value }) => (
-                <button
-                  key={String(value ?? 'all')}
-                  onClick={() => setStatus(value)}
-                  className={`px-1.5 lg:px-3 py-1 lg:py-1.5 rounded-lg text-xs lg:text-sm font-medium border transition ${
-                    status === value
-                      ? 'bg-blue-500 text-white border-blue-500'
-                      : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-100'
-                  }`}
-                >
-                  {label}
-                </button>
-              ))}
-            </div>
-          </div>
-  
-          {/* 거리 */}
-          <div>
-            <h2 className="text-sm font-semibold text-gray-600 my-2">거리</h2>
-            <div className="flex flex-wrap gap-1 lg:gap-2">
-              {['전체', 'Full', 'Half', '10km', '5km'].map((label) => {
-                const val = label === '전체' ? '' : label;
-                return (
+      <header className='mt-4 px-4 py-5 bg-white shadow-sm'>
+        <div className='mx-auto space-y-4'>
+          <h1 className='text-2xl font-bold text-gray-800'>마라톤</h1>
+
+          <div className='flex flex-col'>
+            <div>
+              <h2 className='text-sm font-semibold text-gray-600 my-2'>모집 상태</h2>
+              <div className='flex flex-wrap gap-1 lg:gap-2'>
+                {options.map(({ label, value }) => (
                   <button
-                    key={label}
-                    onClick={() => setEvent(val)}
-                    className={`px-1.5 lg:px-3 py-1 lg:py-1.5 rounded-lg text-xs lg:text-sm  font-medium border transition ${
-                      event === val
-                        ? 'bg-blue-500 text-white border-blue-500'
-                        : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-100'
-                    }`}
-                  >
+                    key={String(value ?? 'all')}
+                    onClick={() => setStatus(value)}
+                    className={`px-2 lg:px-3 py-1 lg:py-1.5 rounded-lg text-sm font-medium border transition ${
+                      status === value ? 'bg-blue-500 text-white border-blue-500' : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-100'
+                    }`}>
                     {label}
                   </button>
-                );
-              })}
+                ))}
+              </div>
             </div>
-          </div>
-  
-          {/* 지역 */}
-          <div>
-            <h2 className="text-sm font-semibold text-gray-600 my-2">지역</h2>
-            <div className="flex flex-wrap gap-1 lg:gap-2">
-              <button
-                onClick={() => setRegionGroup('')}
-                className={`px-1.5 lg:px-3 py-1 lg:py-1.5 rounded-lg text-xs lg:text-sm  border transition ${
-                  regionGroup === ''
-                    ? 'bg-blue-500 text-white border-blue-500'
-                    : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-100'
-                }`}
-              >
-                전체
-              </button>
-              {Object.keys(regionGroups).map((group) => (
+
+            {/* 거리 */}
+            <div>
+              <h2 className='text-sm font-semibold text-gray-600 my-2'>거리</h2>
+              <div className='flex flex-wrap gap-1 lg:gap-2'>
+                {['전체', 'Full', 'Half', '10km', '5km'].map((label) => {
+                  const val = label === '전체' ? '' : label;
+                  return (
+                    <button
+                      key={label}
+                      onClick={() => setEvent(val)}
+                      className={`px-2 lg:px-3 py-1 lg:py-1.5 rounded-lg text-sm font-medium border transition ${
+                        event === val ? 'bg-blue-500 text-white border-blue-500' : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-100'
+                      }`}>
+                      {label}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* 지역 */}
+            <div>
+              <h2 className='text-sm font-semibold text-gray-600 my-2'>지역</h2>
+              <div className='flex flex-wrap gap-1 lg:gap-2'>
                 <button
-                  key={group}
-                  onClick={() => setRegionGroup(group)}
-                  className={`px-1.5 lg:px-3 py-1 lg:py-1.5 rounded-lg text-xs lg:text-sm  border transition ${
-                    regionGroup === group
-                      ? 'bg-blue-500 text-white border-blue-500'
-                      : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-100'
-                  }`}
-                >
-                  {group}
+                  onClick={() => setRegionGroup('')}
+                  className={`px-2 lg:px-3 py-1 lg:py-1.5 rounded-lg text-sm font-medium border transition ${
+                    regionGroup === '' ? 'bg-blue-500 text-white border-blue-500' : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-100'
+                  }`}>
+                  전체
                 </button>
-              ))}
+                {Object.keys(regionGroups).map((group) => (
+                  <button
+                    key={group}
+                    onClick={() => setRegionGroup(group)}
+                    className={`px-2 lg:px-3 py-1 lg:py-1.5 rounded-lg text-sm font-medium border transition ${
+                      regionGroup === group ? 'bg-blue-500 text-white border-blue-500' : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-100'
+                    }`}>
+                    {group}
+                  </button>
+                ))}
+              </div>
             </div>
-          </div>
-  
-          {/* 월 선택 */}
-          <div>
-            <h2 className="text-sm font-semibold text-gray-600 my-2">월</h2>
-            <select
-              className="w-full bg-gray-100 text-sm rounded-md px-3 py-2 border border-gray-300"
-              value={month}
-              onChange={(e) => setMonth(e.target.value)}
-            >
-              <option value="">전체</option>
-              {months.map((m) => (
-                <option key={m} value={parseInt(m)}>
-                  {m}월
-                </option>
-              ))}
-            </select>
+
+            {/* 월 선택 */}
+            <div>
+              <h2 className='text-sm font-semibold text-gray-600 my-2'>월</h2>
+              <select className='w-full bg-gray-100 text-sm rounded-md px-3 py-2 border border-gray-300' value={month} onChange={(e) => setMonth(e.target.value)}>
+                <option value=''>전체</option>
+                {months.map((m) => (
+                  <option key={m} value={parseInt(m)}>
+                    {m}월
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
         </div>
-      </div>
-    </header>
-  
-    {/* 로딩 중 */}
-    {loading && (
-      <div className="text-center mt-32">
-        <GridSpninner />
-      </div>
-    )}
-  
-    {/* 목록 */}
-    {filteredMarathons && (
-      <ul className="grid grid-cols-1 lg:grid-cols-4 gap-4 p-4">
-        {filteredMarathons.map((marathon, index) => (
-          <li key={marathon.id}>
-            <MarathonListCard marathon={marathon} priority={index < 2} />
-          </li>
-        ))}
-      </ul>
-    )}
-  </section>
+      </header>
 
+      {loading && (
+        <ul className='grid grid-cols-1 lg:grid-cols-4 gap-4 p-4'>
+          {Array.from({ length: 8 }).map((_, idx) => (
+            <li key={`skeleton-${idx}`}>
+              <SkeletonCard />
+            </li>
+          ))}
+        </ul>
+      )}
+      {filteredMarathons && (
+        <ul className='grid grid-cols-1 lg:grid-cols-4 gap-4 p-4'>
+          {filteredMarathons.map((marathon, index) => (
+            <li key={marathon.id}>
+              <MarathonListCard marathon={marathon} priority={index < 2} />
+            </li>
+          ))}
+        </ul>
+      )}
+    </section>
   );
 }
