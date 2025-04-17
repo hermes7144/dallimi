@@ -14,6 +14,8 @@ interface Props {
   };
 }
 
+const defaultImage = '/default-marathon.jpg';
+
 export default async function MarathonDetailPage({ params: { id } }: Props) {
   const marathon = await getMarathon(id);
 
@@ -31,7 +33,7 @@ export default async function MarathonDetailPage({ params: { id } }: Props) {
   return (
     <div className='max-w-3xl mx-auto p-4'>
       <div className='relative w-full h-64 sm:h-80'>
-        <Image src={marathon.image} alt={marathon.name} layout='fill' className='rounded-lg' />
+        <Image src={marathon.image || defaultImage} alt={marathon.name} layout='fill' className='rounded-lg' />
       </div>
       <div className='flex justify-between items-center'>
         <h1 className='text-2xl font-bold mt-4'>{marathon.name}</h1>
