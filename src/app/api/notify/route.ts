@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
     
     if (!tokens.length) {
       return new Response(
-        JSON.stringify('토큰이 없어요') , {status: 500})
+        JSON.stringify('토큰이 없어요') , {status: 400})
     }
     const message = {
       data: {
