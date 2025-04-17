@@ -32,25 +32,25 @@ export async function getMarathon(id: string) {
 
 
 
-async function deleteAllMarathons() {
+async function deleteTestMarathons() {
   try {
-    const marathons = await client.fetch('*[_type == "marathon"]{_id}');
+    const marathons = await client.fetch(`*[_type == "marathon" && name == "테스트"]{_id}`);
 
     if (marathons.length === 0) {
-      console.log("🟢 삭제할 마라톤 문서가 없습니다.");
+      console.log("🟢 삭제할 '테스트' 마라톤 문서가 없습니다.");
       return;
     }
 
     let transaction = client.transaction();
-    marathons.forEach((doc: Marathon) => {
-      transaction = transaction.delete(doc.id);
+    marathons.forEach((doc: { _id: string }) => {
+      transaction = transaction.delete(doc._id);
     });
 
     await transaction.commit();
-    console.log(`✅ ${marathons.length}개의 마라톤 문서가 삭제되었습니다.`);
+    console.log(`✅ ${marathons.length}개의 '테스트' 마라톤 문서가 삭제되었습니다.`);
   } catch (error) {
-    console.error("❌ 마라톤 문서 삭제 실패:", error);
+    console.error("❌ '테스트' 마라톤 문서 삭제 실패:", error);
   }
 }
 
-// deleteAllMarathons();
+// deleteTestMarathons();
