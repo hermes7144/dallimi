@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import useMe from '@/hooks/useMe';
-import { signIn } from 'next-auth/react';
 
 
 export const predefinedRegions : string[]  = ['서울', '경기', '인천', '강원', '충북', '충남', '대전', '세종', '경북', '경남', '대구', '부산', '울산', '전북', '전남', '광주', '제주'];
