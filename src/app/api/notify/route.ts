@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
   console.log("🔍 Webhook received");
 
   try {
-    const { name, region, events, image} = await req.json();    
+    const { name, region, events, url, image} = await req.json();    
 
     const tokens = await getActiveUserTokens(region, events);
     
@@ -33,6 +33,7 @@ export async function POST(req: NextRequest) {
       data: {
         title: name,
         body: `${region} ${events}`,
+        url,
       },
       tokens: tokens, // 필터링된 유저들의 FCM 토큰
     };
