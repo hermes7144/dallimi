@@ -34,9 +34,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <main className='overflow-auto h-[calc(100vh-100px)]'>
             <SWRConfigContext>{children}</SWRConfigContext>
           </main>
-          <div className='fixed bottom-0 left-0 right-0 z-20 md:hidden'>
+          {/* <div className='fixed bottom-0 left-0 right-0 z-20 md:hidden'>
             <DockMenu />
-          </div>
+          </div> */}
           <ClientInitializer />
         </AuthContext>
       </body>
