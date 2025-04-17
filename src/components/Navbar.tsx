@@ -1,60 +1,38 @@
-'use client'
+'use client';
 
 import Link from 'next/link';
-import HomeIcon from './ui/icons/HomeIcon';
-import HomeFillIcon from './ui/icons/HomeFillIcon';
 import { usePathname } from 'next/navigation';
-import MarathonIcon from './ui/icons/MarathonIcon';
-import MarathonFillIcon from './ui/icons/MarathonFillIcon';
-import ColorButton from './ui/ColorButton';
-import { useSession, signIn, signOut } from 'next-auth/react';
+import { useSession, signIn } from 'next-auth/react';
 import SearchIcon from './ui/icons/SearchIcon';
 import SearchFillIcon from './ui/icons/SearchFillIcon';
+import ColorButton from './ui/ColorButton';
 import UserMenu from './UserMenu';
-
-const menu = [
-  { href: '/', icon: <HomeIcon />, clickedIcon: <HomeFillIcon /> },
-  { href: '/marathon', icon: <MarathonIcon />, clickedIcon: <MarathonFillIcon /> },
-  { href: '/search', icon: <SearchIcon />, clickedIcon: <SearchFillIcon /> }
-]
 
 export default function Navbar() {
   const pathName = usePathname();
   const { data: session } = useSession();
   const user = session?.user;
 
-  return <div className='flex justify-between items-center px-2 lg:px-6'>
-    <Link href='/'>
-      <h1 className='text-3xl font-bold'>RUNAL</h1>
-      {/* <img src="/logo.png" alt="" /> */}
-    </Link>
-    <nav>
-  <ul className='flex gap-4 items-center p-2'>
-    <div className="hidden md:flex gap-4 items-center">
-      {menu.map(item => (
-        <li key={item.href}>
-          <Link href={item.href}>
-            {pathName === item.href ? item.clickedIcon : item.icon}
-          </Link>
-        </li>
-      ))}
+  return (
+    <div className='navbar bg-base-100 px-4'>
+      <div className='navbar-start'>
+        <Link href='/' className='text-2xl font-bold'>
+          RUNAL
+        </Link>
+      </div>
+      <div className='navbar-center hidden md:flex'>
+        <ul className='menu menu-horizontal px-1'>
+          <li className={`${ pathName === '/marathon' ? 'text-blue-600 font-semibold' : 'text-gray-600 hover:text-black'}`}>
+            <Link href='/marathon'>마라톤</Link>
+          </li>
+        </ul>
+      </div>
+      <div className='navbar-end flex items-center gap-4'>
+        <Link href='/search' className='hidden md:flex'>
+          {pathName === '/search' ? <SearchFillIcon /> : <SearchIcon />}
+        </Link>
+        {user ? <UserMenu /> : <ColorButton text='Sign in' onClick={() => signIn()} />}
+      </div>
     </div>
-    {user && (
-        <li>
-          <UserMenu />
-        </li>
-      )}
-
-    {!user && (
-      <li>
-        <ColorButton text="Sign in" onClick={() => signIn()} />
-      </li>
-    )}
-  </ul>
-</nav>
-  </div>
+  );
 }
-
-
-
-

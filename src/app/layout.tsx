@@ -5,10 +5,6 @@ import Navbar from '@/components/Navbar';
 import AuthContext from '@/context/AuthContext';
 import SWRConfigContext from '@/context/SWRConfigContext';
 import ClientInitializer from '@/components/ClientInitializer';
-import MarathonIcon from '@/components/ui/icons/MarathonIcon';
-import HomeIcon from '@/components/ui/icons/HomeIcon';
-import SearchIcon from '@/components/ui/icons/SearchIcon';
-import SettingIcon from '@/components/ui/icons/SettingIcon';
 import DockMenu from '@/components/DockMenu';
 
 const openSans = Open_Sans({ subsets: ['latin'] });
@@ -16,7 +12,7 @@ const openSans = Open_Sans({ subsets: ['latin'] });
 export const metadata: Metadata = {
   title: '러닝알리미 - 러닝 대회 일정 알림 & 준비 도우미',
   description: '러닝 대회 일정을 놓치지 마세요! 맞춤 알림과 체계적인 준비로 완벽한 레이스를 만들어 보세요.',
-  keywords: '러닝, 마라톤, 대회 일정, 실시간 알림, 트레이닝, 기록 관리, 러닝알리미',
+  keywords: '러닝, 마라톤, 대회 일정, 알림, 트레이닝, 기록 관리, 러닝알리미',
   icons: {
     icon: '/favicon.ico',
   },

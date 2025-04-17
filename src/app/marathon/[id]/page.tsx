@@ -1,4 +1,3 @@
-import { Marathon } from '@/model/marathon';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
 
@@ -76,6 +75,7 @@ export async function generateMetadata({ params: { id } }: Props): Promise<Metad
     description: `${marathon?.name} 대회는 ${dayjs(marathon.date).format('YYYY년 M월 D일')}에 열리며, 참가 신청은 ${dayjs(marathon.startDate).format('YYYY년 M월 D일')}부터 ${dayjs(
       marathon.endDate
     ).format('YYYY년 M월 D일')}까지 가능합니다.`,
+    keywords: '러닝, 마라톤, 대회 일정, 알림, 트레이닝, 기록 관리, 러닝알리미',
   };
 }
 
