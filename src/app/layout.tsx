@@ -27,7 +27,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <header className='sticky top-0 bg-white z-10 border-b'>
             <Navbar />
           </header>
-          <main className='overflow-auto  pb-16'>
+          
+
+          <main className='overflow-auto pb-16'>
             <SWRConfigContext>{children}</SWRConfigContext>
           </main>
           <div className='fixed bottom-0 left-0 right-0 z-20 md:hidden'>

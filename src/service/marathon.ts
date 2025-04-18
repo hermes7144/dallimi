@@ -1,36 +1,31 @@
 import { Marathon } from '@/model/marathon';
 import { client, urlFor } from './sanity';
 
-export async function getMarathons() {
-  
+export async function getMarathons(keyword?: string) {
+  console.log('keyword', keyword);
+
+  const query = keyword ? `&& name match "*${keyword}*"` : '';
+
   return client
     .fetch(
-      `*[_type == "marathon"] | order(date asc) {
+      `*[_type == "marathon" ${query}] | order(date asc) {
       ...,
       "id":_id,
       "participants": participants[]->_id,
       }`
     )
     .then(mapPosts);
-};
+}
 
-function mapPosts(marathons: Marathon[]) {
-
+function mapPosts(marathons: Marathon[]): Marathon[] {
   return marathons.map((marathon: Marathon) => ({
     ...marathon,
-    image: marathon.image && urlFor(marathon.image),
+    image: marathon.image ? urlFor(marathon.image) : undefined,
   }));
 }
-
 export async function getMarathon(id: string) {
-  return client
-    .fetch(
-      `*[_type == "marathon" && _id == "${id}"][0]`
-    )
-    .then((post) => ({ ...post, image: urlFor(post.image) }));
+  return client.fetch(`*[_type == "marathon" && _id == "${id}"][0]`).then((post) => ({ ...post, image: urlFor(post.image) }));
 }
-
-
 
 async function deleteTestMarathons() {
   try {
