@@ -31,42 +31,47 @@ export default async function MarathonDetailPage({ params: { id } }: Props) {
   }
 
   return (
-    <div className='max-w-3xl mx-auto p-4'>
-      <div className='relative w-full h-64 sm:h-80'>
-        <Image src={marathon.image || defaultImage} alt={marathon.name} layout='fill' className='rounded-lg' />
-      </div>
-      <div className='flex justify-between items-center'>
-        <h1 className='text-2xl font-bold mt-4'>{marathon.name}</h1>
-          <a href={marathon.url} target='_blank' className='text-blue-500 hover:text-blue-700 transition duration-200'>
-            <FaExternalLinkAlt size={20} />
-          </a>
-      </div>
-      <p className='text-gray-600'>
-        {marathon.region}, {marathon.location}
-      </p>
-      <div className='mt-2 text-gray-700'>
-        <div className='flex items-center gap-2'>
-          <FaRegCalendarAlt />
-          <span>
-            접수 기간: {dayjs(marathon.startDate).format('YYYY년 M월 D일')} ~ {marathon.endDate && dayjs(marathon.endDate).format('YYYY년 M월 D일')}
-          </span>
+      <div className='w-full flex justify-center px-4'>
+        <div className='w-full max-w-3xl pt-8'>
+          <div className='relative w-full h-64 sm:h-80'>
+            <Image src={marathon.image || defaultImage} alt={marathon.name} layout='fill' className='rounded-lg object-cover' />
+          </div>
+          <div className='flex justify-between items-center mt-4'>
+            <h1 className='text-2xl font-bold'>{marathon.name}</h1>
+            <a href={marathon.url} target='_blank' className='text-blue-500 hover:text-blue-700 transition duration-200'>
+              <FaExternalLinkAlt size={20} />
+            </a>
+          </div>
+          <p className='text-gray-600'>
+            {marathon.region}, {marathon.location}
+          </p>
+    
+          <div className='mt-2 text-gray-700'>
+            <div className='flex items-center gap-2'>
+              <FaRegCalendarAlt />
+              <span>
+                접수 기간: {dayjs(marathon.startDate).format('YYYY년 M월 D일')} ~{' '}
+                {marathon.endDate && dayjs(marathon.endDate).format('YYYY년 M월 D일')}
+              </span>
+            </div>
+            <div className='flex items-center text-gray-600'>
+              <FaRegCalendarAlt className='w-5 h-5 flex-shrink-0 mr-1' />
+              <span>{dateText}</span>
+              <span className={`${textColor} ml-1`}>({dayText})</span>
+            </div>
+          </div>
+          <div className='mt-2 flex items-center gap-2 text-gray-700'>
+            <FaWonSign />
+            <span>{marathon.price?.toLocaleString()}원 ~</span>
+          </div>
+    
+          <div className='mt-4'>
+            <EventList events={marathon.events} />
+          </div>
         </div>
-        <div className='flex items-center text-gray-600'>
-          <FaRegCalendarAlt className='w-5 h-5 flex-shrink-0  mr-1' />
-          <span>{dateText}</span>
-          <span className={textColor + ' ml-1'}>({dayText})</span>
-        </div>
       </div>
-
-      <div className='mt-2 flex items-center gap-2 text-gray-700'>
-        <FaWonSign />
-        <span>{marathon.price?.toLocaleString()}원 ~</span>
-      </div>
-      <div className='mt-4'>
-          <EventList events={marathon.events} />
-      </div>
-    </div>
-  );
+    );
+  
 }
 
 export async function generateMetadata({ params: { id } }: Props): Promise<Metadata> {
