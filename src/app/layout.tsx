@@ -21,15 +21,18 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang='en' className={openSans.className}>
-      <body className='w-full max-w-screen-xl overflow-auto mx-auto'>
-        <div id='portal'></div>
+      <body className={`w-full bg-neutral-50 overflow-auto`}>
+      <div id='portal'></div>
         <AuthContext>
           <header className='sticky top-0 bg-white z-10 border-b'>
+            <div className='max-w-screen-xl mx-auto'>
             <Navbar />
+            </div>
           </header>
           
+          <main className="w-full flex justify-center bg-neutral-50 max-w-screen-xl mx-auto pb-16">
 
-          <main className='overflow-auto pb-16'>
+          {/* <main className='overflow-auto pb-16'> */}
             <SWRConfigContext>{children}</SWRConfigContext>
           </main>
           <div className='fixed bottom-0 left-0 right-0 z-20 md:hidden'>

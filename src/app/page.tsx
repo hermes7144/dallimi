@@ -79,12 +79,12 @@ export default function HomePage() {
     </ul>
   );
 
+
   return (
-    <main className='p-4 space-y-12'>
+    <div className='w-full p-4 space-y-12'>
       <NotificationSummary />
       {renderSection('접수 예정 마라톤', notOpened)}
       {renderSection('신규 등록 마라톤', recent)}
-
       <div className='text-center pt-6'>
         <Link
           href='/marathon'
@@ -93,6 +93,6 @@ export default function HomePage() {
           전체 마라톤 보기 →
         </Link>
       </div>
-    </main>
+    </div>
   );
 }

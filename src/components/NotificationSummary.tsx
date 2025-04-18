@@ -9,7 +9,7 @@ const NotificationSummary = () => {
   if (!user) return null;
 
   return (
-    <div className={`p-4 rounded-lg border ${n?.isEnabled ? 'bg-blue-50 border-blue-200 text-blue-800' : 'bg-gray-100 border-gray-200 text-gray-600'}`}>
+    <div className={`w-full p-4 rounded-lg border ${n?.isEnabled ? 'bg-blue-50 border-blue-200 text-blue-800' : 'bg-gray-100 border-gray-200 text-gray-600'}`}>
       {n?.isEnabled ? (
         <>
           <p className="text-sm font-medium mb-2">📬 알림 설정 요약</p>
