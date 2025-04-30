@@ -104,8 +104,7 @@ function MarathonListCard({ marathon, priority = false }: Props) {
               로그인 하기
             </button>
           </div>
-        </div> 
-
+        </div>
               </Modal>
             </ModalPortal>}
           </div>
