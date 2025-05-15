@@ -24,6 +24,9 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang='en' className={openSans.className}>
+      <head>
+        <meta name="google-site-verification" content="gR9CrS-cHrBW4vucV3dPfjM-xjxOSJdXEPdd_riZrhE" />
+      </head>
       <body className={`w-full bg-neutral-50 overflow-auto`}>
       <div id='portal'></div>
         <AuthContext>
